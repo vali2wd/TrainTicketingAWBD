@@ -1,4 +1,7 @@
-﻿namespace TrainTicketing.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace TrainTicketing.Entities;
 
 public class Train
 {
@@ -8,15 +11,23 @@ public class Train
 
     public TrainType TrainType { get; }
 
-    public int TariffSchemaId { get; }
-
-    public TariffSchema TariffSchema { get; } = null!;
-
     public ICollection<Seat> Seats { get; } = null!;
 }
 
-public enum TrainType
+public class TrainConfiguration : IEntityTypeConfiguration<Train>
 {
-    R = 0,
-    IR = 1
+    public void Configure(EntityTypeBuilder<Train> builder)
+    {
+        builder.HasKey(t => t.TrainId);
+        
+        builder.Property(t => t.TrainName)
+            .IsRequired()
+            .HasMaxLength(35);
+        
+        builder.Property(t => t.TrainType)
+            .IsRequired();
+        
+        builder.HasMany(e => e.Seats)
+            .WithOne();
+    }
 }

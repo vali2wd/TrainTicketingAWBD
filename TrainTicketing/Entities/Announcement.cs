@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TrainTicketing.Entities;
 
@@ -11,4 +13,20 @@ public class Announcement
     public IdentityUser CreatedBy { get; set; }
 
     public DateTime CreatedAt{ get; set; }
+}
+
+public class AnnouncementConfigurator : IEntityTypeConfiguration<Announcement>
+{
+    public void Configure(EntityTypeBuilder<Announcement> builder)
+    {
+        builder.HasKey(a => a.AnnouncementId);
+        builder.Property(a => a.Content)
+            .IsRequired()
+            .HasMaxLength(255);
+        builder.HasOne(a => a.CreatedBy)
+            .WithMany()
+            .HasForeignKey(a => a.CreatedBy.Id)
+            .OnDelete(DeleteBehavior.Restrict);
+        builder.Property(e => e.CreatedAt).IsRequired();
+    }
 }
