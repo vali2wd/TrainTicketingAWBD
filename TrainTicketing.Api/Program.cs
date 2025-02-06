@@ -1,3 +1,6 @@
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -5,6 +8,32 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services
+    .AddAuthorization();
+
+builder.Services
+    .AddIdentityApiEndpoints<IdentityUser>()
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<DbContext>();
+
+builder.Services
+    .AddDbContext<DbContext>(options =>
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+
+builder.Services
+    .AddEndpointsApiExplorer();
+builder.Services
+    .AddSwaggerGen(options =>
+    {
+        options.AddSecurityDefinition("oauth2", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+        {
+            In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+            Name = "Authorization",
+            Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey
+        });
+    }
+    );
 
 var app = builder.Build();
 
