@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using TrainTicketing.Database;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,10 +16,10 @@ builder.Services
 builder.Services
     .AddIdentityApiEndpoints<IdentityUser>()
     .AddRoles<IdentityRole>()
-    .AddEntityFrameworkStores<DbContext>();
+    .AddEntityFrameworkStores<TrainTicketingDbContext>();
 
 builder.Services
-    .AddDbContext<DbContext>(options =>
+    .AddDbContext<TrainTicketingDbContext>(options =>
         options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services

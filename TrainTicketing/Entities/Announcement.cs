@@ -25,7 +25,6 @@ public class AnnouncementConfigurator : IEntityTypeConfiguration<Announcement>
             .HasMaxLength(255);
         builder.HasOne(a => a.CreatedBy)
             .WithMany()
-            .HasForeignKey(a => a.CreatedBy.Id)
             .OnDelete(DeleteBehavior.Restrict);
         builder.Property(e => e.CreatedAt).IsRequired();
     }

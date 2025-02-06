@@ -6,8 +6,13 @@ using System.Reflection.Emit;
 using System.Reflection;
 
 namespace TrainTicketing.Database;
-public class DbContext : IdentityDbContext<IdentityUser>
+public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
 {
+    public TrainTicketingDbContext(DbContextOptions<TrainTicketingDbContext> options) : base(options)
+    {
+
+    }
+
     public DbSet<Announcement> Announcements { get; set; }
     public DbSet<Reservation> Reservations { get; set; }
     public DbSet<ReservationsArchive> ReservationsArchive { get; set; }
