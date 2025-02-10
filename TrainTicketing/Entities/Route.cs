@@ -15,6 +15,8 @@ public class Route
     public int TariffSchemaId { get; set; }
 
     public TariffSchema TariffSchema { get; set; } = null!;
+    
+    public string ImagePath { get; set; } = null!;
 
     public ICollection<RouteDetail> RouteDetails { get; set; } = [];
 }
