@@ -6,11 +6,11 @@ public class RouteDetail
 {
     public int Id { get; }
 
-    public int RouteId { get; }
+    public Guid RouteId { get; }
 
     public Route? Route { get; }
 
-    public int StationId { get; }
+    public Guid StationId { get; }
 
     public Station? Station { get; }
 

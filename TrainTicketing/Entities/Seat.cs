@@ -9,6 +9,9 @@ public class Seat
     public string SeatCode { get; } = null!;
 
     public SeatClass SeatClass{ get; set; }
+
+    public List<SeatReservation> SeatReservations { get; } = [];
+
 }
 
 public class SeatConfigurator : IEntityTypeConfiguration<Seat>
@@ -21,5 +24,6 @@ public class SeatConfigurator : IEntityTypeConfiguration<Seat>
             .HasMaxLength(3);
         builder.Property(s => s.SeatClass)
             .IsRequired();
+
     }
 }
