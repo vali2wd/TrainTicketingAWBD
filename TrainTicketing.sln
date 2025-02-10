@@ -1,9 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113 d17.12
+VisualStudioVersion = 17.12.35527.113
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing", "TrainTicketing\TrainTicketing.csproj", "{CDDB30B2-2D66-4121-B891-1AD12999233E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Api", "TrainTicketing.Api\TrainTicketing.Api.csproj", "{CDDB30B2-2D66-4121-B891-1AD12999233E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing", "TrainTicketing\TrainTicketing.csproj", "{62BDFCA5-34F5-4314-8DDE-71D29B1A1C16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Contracts", "TrainTicketing.Contracts\TrainTicketing.Contracts.csproj", "{EFCFE1E9-6CB6-497F-B147-0267547BA261}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Tests", "TrainTicketing.Tests\TrainTicketing.Tests.csproj", "{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +21,18 @@ Global
 		{CDDB30B2-2D66-4121-B891-1AD12999233E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDDB30B2-2D66-4121-B891-1AD12999233E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDDB30B2-2D66-4121-B891-1AD12999233E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{62BDFCA5-34F5-4314-8DDE-71D29B1A1C16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{62BDFCA5-34F5-4314-8DDE-71D29B1A1C16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{62BDFCA5-34F5-4314-8DDE-71D29B1A1C16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{62BDFCA5-34F5-4314-8DDE-71D29B1A1C16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EFCFE1E9-6CB6-497F-B147-0267547BA261}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EFCFE1E9-6CB6-497F-B147-0267547BA261}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EFCFE1E9-6CB6-497F-B147-0267547BA261}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EFCFE1E9-6CB6-497F-B147-0267547BA261}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
