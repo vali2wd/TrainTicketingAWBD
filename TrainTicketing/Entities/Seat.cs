@@ -8,10 +8,13 @@ public class Seat
 
     public string SeatCode { get; } = null!;
 
+    public Guid TrainId { get; set; }
+
+    public Train Train { get; set; } = null!;
+
     public SeatClass SeatClass{ get; set; }
 
     public List<SeatReservation> SeatReservations { get; } = [];
-
 }
 
 public class SeatConfigurator : IEntityTypeConfiguration<Seat>
@@ -24,6 +27,9 @@ public class SeatConfigurator : IEntityTypeConfiguration<Seat>
             .HasMaxLength(3);
         builder.Property(s => s.SeatClass)
             .IsRequired();
-
+        builder.HasOne(s => s.Train)
+            .WithMany(s => s.Seats)
+            .HasForeignKey(s => s.TrainId)
+            .OnDelete(DeleteBehavior.Restrict);
     }
 }
