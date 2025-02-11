@@ -34,7 +34,6 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
    
     public DbSet<SeatReservation> SeatReservationDetails { get; set; }
 
-    public DbSet<SeatClass> SeatClasses { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

@@ -28,13 +28,12 @@ public class TariffRangesConfigurator : IEntityTypeConfiguration<TariffRanges>
         builder.HasKey(t => t.TariffRangeId);
         builder.Property(t => t.StartKm)
             .IsRequired()
-            .HasPrecision(4, 1);
+            .HasPrecision(8, 4);
         builder.Property(t => t.EndKm)
-            .IsRequired()
-            .HasPrecision(4, 1);
+            .HasPrecision(8, 4);
         builder.Property(t => t.PricePerKm)
             .IsRequired()
-            .HasPrecision(2, 2);
+            .HasPrecision(8, 4);
         builder.Property(t => t.SeatClass)
             .IsRequired();
         //convert the seatclass to enum Seat Class
@@ -42,7 +41,7 @@ public class TariffRangesConfigurator : IEntityTypeConfiguration<TariffRanges>
             .HasConversion<int>();
 
         builder.HasOne(e => e.TariffSchema)
-            .WithMany()
+            .WithMany(e => e.TariffRanges)
             .OnDelete(DeleteBehavior.Restrict);
         builder.HasData(
             new TariffRanges { TariffRangeId = 1, TariffSchemaId = 1, SeatClass = SeatClass.First, StartKm = 1, EndKm = 1 + 9, PricePerKm = 6.0m },

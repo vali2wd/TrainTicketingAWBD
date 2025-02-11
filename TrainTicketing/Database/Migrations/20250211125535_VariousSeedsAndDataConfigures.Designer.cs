@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainTicketing.Database;
 
@@ -11,9 +12,11 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    partial class TrainTicketingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250211125535_VariousSeedsAndDataConfigures")]
+    partial class VariousSeedsAndDataConfigures
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -586,20 +589,20 @@ namespace TrainTicketing.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("TariffRangeId"));
 
-                    b.Property<decimal?>("EndKm")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
+                    b.Property<decimal>("EndKm")
+                        .HasPrecision(4, 1)
+                        .HasColumnType("decimal(4,1)");
 
                     b.Property<decimal>("PricePerKm")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
+                        .HasPrecision(2, 2)
+                        .HasColumnType("decimal(2,2)");
 
                     b.Property<int>("SeatClass")
                         .HasColumnType("int");
 
                     b.Property<decimal>("StartKm")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
+                        .HasPrecision(4, 1)
+                        .HasColumnType("decimal(4,1)");
 
                     b.Property<int>("TariffSchemaId")
                         .HasColumnType("int");
@@ -609,384 +612,6 @@ namespace TrainTicketing.Database.Migrations
                     b.HasIndex("TariffSchemaId");
 
                     b.ToTable("TariffRangess");
-
-                    b.HasData(
-                        new
-                        {
-                            TariffRangeId = 1,
-                            EndKm = 10m,
-                            PricePerKm = 6.0m,
-                            SeatClass = 1,
-                            StartKm = 1m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 2,
-                            EndKm = 20m,
-                            PricePerKm = 7.5m,
-                            SeatClass = 1,
-                            StartKm = 11m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 3,
-                            EndKm = 30m,
-                            PricePerKm = 10.5m,
-                            SeatClass = 1,
-                            StartKm = 21m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 4,
-                            EndKm = 40m,
-                            PricePerKm = 12.5m,
-                            SeatClass = 1,
-                            StartKm = 31m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 5,
-                            EndKm = 50m,
-                            PricePerKm = 16.5m,
-                            SeatClass = 1,
-                            StartKm = 41m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 6,
-                            EndKm = 60m,
-                            PricePerKm = 17.5m,
-                            SeatClass = 1,
-                            StartKm = 51m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 7,
-                            EndKm = 70m,
-                            PricePerKm = 20.5m,
-                            SeatClass = 1,
-                            StartKm = 61m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 8,
-                            EndKm = 80m,
-                            PricePerKm = 23.0m,
-                            SeatClass = 1,
-                            StartKm = 71m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 9,
-                            EndKm = 90m,
-                            PricePerKm = 26.0m,
-                            SeatClass = 1,
-                            StartKm = 81m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 10,
-                            EndKm = 100m,
-                            PricePerKm = 28.0m,
-                            SeatClass = 1,
-                            StartKm = 91m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 11,
-                            EndKm = 120m,
-                            PricePerKm = 34.0m,
-                            SeatClass = 1,
-                            StartKm = 101m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 12,
-                            EndKm = 140m,
-                            PricePerKm = 39.5m,
-                            SeatClass = 1,
-                            StartKm = 121m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 13,
-                            EndKm = 160m,
-                            PricePerKm = 44.5m,
-                            SeatClass = 1,
-                            StartKm = 141m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 14,
-                            EndKm = 180m,
-                            PricePerKm = 51.5m,
-                            SeatClass = 1,
-                            StartKm = 161m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 15,
-                            EndKm = 200m,
-                            PricePerKm = 57.0m,
-                            SeatClass = 1,
-                            StartKm = 181m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 16,
-                            EndKm = 250m,
-                            PricePerKm = 65.0m,
-                            SeatClass = 1,
-                            StartKm = 201m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 17,
-                            EndKm = 300m,
-                            PricePerKm = 75.5m,
-                            SeatClass = 1,
-                            StartKm = 251m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 18,
-                            EndKm = 350m,
-                            PricePerKm = 86.5m,
-                            SeatClass = 1,
-                            StartKm = 301m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 19,
-                            EndKm = 400m,
-                            PricePerKm = 100.0m,
-                            SeatClass = 1,
-                            StartKm = 351m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 20,
-                            EndKm = 500m,
-                            PricePerKm = 121.0m,
-                            SeatClass = 1,
-                            StartKm = 401m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 21,
-                            PricePerKm = 26.0m,
-                            SeatClass = 1,
-                            StartKm = 501m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 22,
-                            EndKm = 10m,
-                            PricePerKm = 4.0m,
-                            SeatClass = 2,
-                            StartKm = 1m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 23,
-                            EndKm = 20m,
-                            PricePerKm = 5.0m,
-                            SeatClass = 2,
-                            StartKm = 11m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 24,
-                            EndKm = 30m,
-                            PricePerKm = 7.0m,
-                            SeatClass = 2,
-                            StartKm = 21m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 25,
-                            EndKm = 40m,
-                            PricePerKm = 8.5m,
-                            SeatClass = 2,
-                            StartKm = 31m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 26,
-                            EndKm = 50m,
-                            PricePerKm = 11.0m,
-                            SeatClass = 2,
-                            StartKm = 41m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 27,
-                            EndKm = 60m,
-                            PricePerKm = 12.0m,
-                            SeatClass = 2,
-                            StartKm = 51m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 28,
-                            EndKm = 70m,
-                            PricePerKm = 14.0m,
-                            SeatClass = 2,
-                            StartKm = 61m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 29,
-                            EndKm = 80m,
-                            PricePerKm = 15.5m,
-                            SeatClass = 2,
-                            StartKm = 71m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 30,
-                            EndKm = 90m,
-                            PricePerKm = 17.5m,
-                            SeatClass = 2,
-                            StartKm = 81m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 31,
-                            EndKm = 100m,
-                            PricePerKm = 19.0m,
-                            SeatClass = 2,
-                            StartKm = 91m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 32,
-                            EndKm = 120m,
-                            PricePerKm = 23.0m,
-                            SeatClass = 2,
-                            StartKm = 101m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 33,
-                            EndKm = 140m,
-                            PricePerKm = 26.5m,
-                            SeatClass = 2,
-                            StartKm = 121m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 34,
-                            EndKm = 160m,
-                            PricePerKm = 30.0m,
-                            SeatClass = 2,
-                            StartKm = 141m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 35,
-                            EndKm = 180m,
-                            PricePerKm = 34.5m,
-                            SeatClass = 2,
-                            StartKm = 161m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 36,
-                            EndKm = 200m,
-                            PricePerKm = 38.0m,
-                            SeatClass = 2,
-                            StartKm = 181m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 37,
-                            EndKm = 250m,
-                            PricePerKm = 43.5m,
-                            SeatClass = 2,
-                            StartKm = 201m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 38,
-                            EndKm = 300m,
-                            PricePerKm = 50.5m,
-                            SeatClass = 2,
-                            StartKm = 251m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 39,
-                            EndKm = 350m,
-                            PricePerKm = 58.0m,
-                            SeatClass = 2,
-                            StartKm = 301m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 40,
-                            EndKm = 400m,
-                            PricePerKm = 67.0m,
-                            SeatClass = 2,
-                            StartKm = 351m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 41,
-                            EndKm = 500m,
-                            PricePerKm = 81.0m,
-                            SeatClass = 2,
-                            StartKm = 401m,
-                            TariffSchemaId = 1
-                        },
-                        new
-                        {
-                            TariffRangeId = 42,
-                            PricePerKm = 17.5m,
-                            SeatClass = 2,
-                            StartKm = 501m,
-                            TariffSchemaId = 1
-                        });
                 });
 
             modelBuilder.Entity("TrainTicketing.Entities.TariffSchema", b =>
