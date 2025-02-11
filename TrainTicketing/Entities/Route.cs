@@ -39,6 +39,5 @@ public class RouteConfigurator : IEntityTypeConfiguration<Route>
             .WithMany()
             .HasForeignKey(r => r.MainTerminalId)
             .OnDelete(DeleteBehavior.Restrict);
-
     }
 }

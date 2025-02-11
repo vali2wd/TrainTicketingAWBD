@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace TrainTicketing.Entities;
+
 public class RouteDetail
 {
     public int Id { get; }
@@ -14,7 +15,11 @@ public class RouteDetail
 
     public Station? Station { get; }
 
+    public int OrderOfStationFromMain { get; set; }
+
     public decimal DistanceFromMain {  get; }
+
+    public ICollection<DepatureDetail> DepatureDetails { get; set; } = [];
 }
 
 public class RouteDetailConfigurator : IEntityTypeConfiguration<RouteDetail>
@@ -41,6 +46,9 @@ public class RouteDetailConfigurator : IEntityTypeConfiguration<RouteDetail>
 
         builder.Property(rd => rd.DistanceFromMain)
             .IsRequired() 
-            .HasPrecision(5,1);
+            .HasPrecision(8,4);
+
+        builder.Property(rd => rd.OrderOfStationFromMain)
+            .IsRequired();
     }
 }
