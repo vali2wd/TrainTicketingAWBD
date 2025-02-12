@@ -25,7 +25,18 @@ public static class RoutesEndpoints
             {
                 return Results.BadRequest("Invalid route id");
             };
-            
+
+            var route = await dbContext
+                            .Routes
+                            .AsNoTracking()
+                            .Where(r => r.RouteId == routeGuid)
+                            .FirstOrDefaultAsync();
+            if (route is null)
+            {
+                return Results.NotFound();
+            }
+            var routeTotalDistance = route.TotalDistance;
+
             var departures = 
                 await dbContext.Departures
                                     .AsNoTracking()
@@ -41,6 +52,7 @@ public static class RoutesEndpoints
                                         .OrderBy(dd => dd.IsAwayFromTerminal == true ? dd.RouteDetail.OrderOfStationFromMain : -dd.RouteDetail.OrderOfStationFromMain)
                                         .Select(dd => new
                                         {
+                                            Distance = dd.IsAwayFromTerminal == true ? dd.RouteDetail.DistanceFromMain : routeTotalDistance - dd.RouteDetail.DistanceFromMain,
                                             DepartureTime = dd.DepatureTime,
                                             Station = dd.RouteDetail.Station.StationName
                                         })
