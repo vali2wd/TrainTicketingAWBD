@@ -19,6 +19,8 @@ public class Route
     public string ImagePath { get; set; } = null!;
 
     public ICollection<RouteDetail> RouteDetails { get; set; } = [];
+
+    public ICollection<Departure> Departures { get; set; }
 }
 
 public class RouteConfigurator : IEntityTypeConfiguration<Route>

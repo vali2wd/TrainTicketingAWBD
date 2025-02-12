@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
-using TrainTicketing.ValueObjects;
 
 namespace TrainTicketing.Api.Endpoints.Routes;
 
