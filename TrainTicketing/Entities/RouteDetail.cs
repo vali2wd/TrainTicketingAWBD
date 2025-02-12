@@ -19,7 +19,7 @@ public class RouteDetail
 
     public decimal DistanceFromMain {  get; set;}
 
-    public ICollection<DepatureDetail> DepatureDetails { get; set; } = [];
+    public ICollection<DepartureDetail> DepatureDetails { get; set; } = [];
 }
 
 public class RouteDetailConfigurator : IEntityTypeConfiguration<RouteDetail>
