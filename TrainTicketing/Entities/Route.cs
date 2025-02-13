@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 namespace TrainTicketing.Entities;
 public class Route
 {
-    public Guid Id { get; set; }
+    public Guid RouteId { get; set; }
 
     public string RouteName { get; set; } = null!;
 
@@ -15,15 +15,21 @@ public class Route
     public int TariffSchemaId { get; set; }
 
     public TariffSchema TariffSchema { get; set; } = null!;
+    
+    public string ImagePath { get; set; } = null!;
 
     public ICollection<RouteDetail> RouteDetails { get; set; } = [];
+
+    public ICollection<Departure> Departures { get; set; }
+
+    public decimal TotalDistance { get; set; }
 }
 
 public class RouteConfigurator : IEntityTypeConfiguration<Route>
 {
     public void Configure(EntityTypeBuilder<Route> builder)
     {
-        builder.HasKey(r => r.Id);
+        builder.HasKey(r => r.RouteId);
 
         builder.Property(r => r.RouteName)
             .IsRequired()
@@ -37,5 +43,13 @@ public class RouteConfigurator : IEntityTypeConfiguration<Route>
             .WithMany()
             .HasForeignKey(r => r.MainTerminalId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(r => r.TotalDistance)
+            .HasPrecision(8,4)
+            .IsRequired();
+
+        builder.HasData(
+            new Route { RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a"), TotalDistance = 169.0m, RouteName = "Bucuresti-Brasov", MainTerminalId = Guid.Parse("8f1fd997-1261-450b-912f-8c90650e49d5"), TariffSchemaId = 1, ImagePath = "https://trainticketing.blob.core.windows.net/trainticketingimages/ruta_Bucuresti-Brasov.png" }
+            );
     }
 }

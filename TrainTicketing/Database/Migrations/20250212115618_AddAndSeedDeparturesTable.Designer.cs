@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainTicketing.Database;
 
@@ -11,9 +12,11 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    partial class TrainTicketingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212115618_AddAndSeedDeparturesTable")]
+    partial class AddAndSeedDeparturesTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -253,51 +256,26 @@ namespace TrainTicketing.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureId"));
 
-                    b.Property<bool>("OutboundMain")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("RouteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrainId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.HasKey("DepartureId");
-
-                    b.HasIndex("RouteId");
-
-                    b.HasIndex("TrainId");
 
                     b.ToTable("Departures");
 
                     b.HasData(
                         new
                         {
-                            DepartureId = 1,
-                            OutboundMain = true,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                            DepartureId = 1
                         },
                         new
                         {
-                            DepartureId = 2,
-                            OutboundMain = false,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                            DepartureId = 2
                         },
                         new
                         {
-                            DepartureId = 3,
-                            OutboundMain = true,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                            DepartureId = 3
                         },
                         new
                         {
-                            DepartureId = 4,
-                            OutboundMain = false,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                            DepartureId = 4
                         });
                 });
 
@@ -315,14 +293,22 @@ namespace TrainTicketing.Database.Migrations
                     b.Property<TimeSpan>("DepatureTime")
                         .HasColumnType("time");
 
+                    b.Property<bool>("IsAwayFromTerminal")
+                        .HasColumnType("bit");
+
                     b.Property<int>("RouteDetailId")
                         .HasColumnType("int");
+
+                    b.Property<Guid>("TrainId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
 
                     b.HasIndex("DepartureId");
 
                     b.HasIndex("RouteDetailId");
+
+                    b.HasIndex("TrainId");
 
                     b.ToTable("DepartureDetails");
 
@@ -332,308 +318,396 @@ namespace TrainTicketing.Database.Migrations
                             Id = 1,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 7, 0, 0, 0),
-                            RouteDetailId = 1
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 1,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 2,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 7, 20, 0, 0),
-                            RouteDetailId = 2
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 2,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 3,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 7, 30, 0, 0),
-                            RouteDetailId = 3
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 3,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 4,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 7, 42, 0, 0),
-                            RouteDetailId = 4
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 4,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 5,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 8, 6, 0, 0),
-                            RouteDetailId = 5
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 5,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 6,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 8, 18, 0, 0),
-                            RouteDetailId = 6
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 6,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 7,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 8, 35, 0, 0),
-                            RouteDetailId = 7
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 7,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 8,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 8, 44, 0, 0),
-                            RouteDetailId = 8
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 8,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 9,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 8, 50, 0, 0),
-                            RouteDetailId = 9
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 9,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 10,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 9, 0, 0, 0),
-                            RouteDetailId = 10
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 10,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 11,
                             DepartureId = 1,
                             DepatureTime = new TimeSpan(0, 9, 33, 0, 0),
-                            RouteDetailId = 11
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 11,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 12,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 12, 39, 0, 0),
-                            RouteDetailId = 1
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 1,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 13,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 12, 30, 0, 0),
-                            RouteDetailId = 2
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 2,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 14,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 12, 20, 0, 0),
-                            RouteDetailId = 3
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 3,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 15,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 12, 0, 0, 0),
-                            RouteDetailId = 4
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 4,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 16,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 11, 33, 0, 0),
-                            RouteDetailId = 5
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 5,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 17,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 11, 18, 0, 0),
-                            RouteDetailId = 6
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 6,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 18,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 11, 3, 0, 0),
-                            RouteDetailId = 7
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 7,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 19,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 10, 53, 0, 0),
-                            RouteDetailId = 8
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 8,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 20,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 10, 46, 0, 0),
-                            RouteDetailId = 9
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 9,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 21,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 10, 36, 0, 0),
-                            RouteDetailId = 10
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 10,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 22,
                             DepartureId = 2,
                             DepatureTime = new TimeSpan(0, 9, 56, 0, 0),
-                            RouteDetailId = 11
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 11,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 23,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 15, 0, 0, 0),
-                            RouteDetailId = 1
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 1,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 24,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 15, 20, 0, 0),
-                            RouteDetailId = 2
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 2,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 25,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 15, 30, 0, 0),
-                            RouteDetailId = 3
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 3,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 26,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 15, 42, 0, 0),
-                            RouteDetailId = 4
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 4,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 27,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 16, 6, 0, 0),
-                            RouteDetailId = 5
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 5,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 28,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 16, 18, 0, 0),
-                            RouteDetailId = 6
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 6,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 29,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 16, 35, 0, 0),
-                            RouteDetailId = 7
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 7,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 30,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 16, 44, 0, 0),
-                            RouteDetailId = 8
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 8,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 31,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 16, 50, 0, 0),
-                            RouteDetailId = 9
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 9,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 32,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 17, 0, 0, 0),
-                            RouteDetailId = 10
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 10,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 33,
                             DepartureId = 3,
                             DepatureTime = new TimeSpan(0, 17, 33, 0, 0),
-                            RouteDetailId = 11
+                            IsAwayFromTerminal = true,
+                            RouteDetailId = 11,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 34,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 20, 39, 0, 0),
-                            RouteDetailId = 1
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 1,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 35,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 20, 30, 0, 0),
-                            RouteDetailId = 2
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 2,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 36,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 20, 20, 0, 0),
-                            RouteDetailId = 3
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 3,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 37,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 20, 0, 0, 0),
-                            RouteDetailId = 4
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 4,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 38,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 19, 33, 0, 0),
-                            RouteDetailId = 5
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 5,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 39,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 19, 18, 0, 0),
-                            RouteDetailId = 6
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 6,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 40,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 19, 3, 0, 0),
-                            RouteDetailId = 7
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 7,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 41,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 18, 53, 0, 0),
-                            RouteDetailId = 8
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 8,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 42,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 18, 46, 0, 0),
-                            RouteDetailId = 9
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 9,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 43,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 18, 36, 0, 0),
-                            RouteDetailId = 10
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 10,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
                             Id = 44,
                             DepartureId = 4,
                             DepatureTime = new TimeSpan(0, 17, 56, 0, 0),
-                            RouteDetailId = 11
+                            IsAwayFromTerminal = false,
+                            RouteDetailId = 11,
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         });
                 });
 
@@ -687,10 +761,6 @@ namespace TrainTicketing.Database.Migrations
                     b.Property<int>("TariffSchemaId")
                         .HasColumnType("int");
 
-                    b.Property<decimal>("TotalDistance")
-                        .HasPrecision(8, 4)
-                        .HasColumnType("decimal(8,4)");
-
                     b.HasKey("RouteId");
 
                     b.HasIndex("MainTerminalId");
@@ -706,8 +776,7 @@ namespace TrainTicketing.Database.Migrations
                             ImagePath = "https://trainticketing.blob.core.windows.net/trainticketingimages/ruta_Bucuresti-Brasov.png",
                             MainTerminalId = new Guid("8f1fd997-1261-450b-912f-8c90650e49d5"),
                             RouteName = "Bucuresti-Brasov",
-                            TariffSchemaId = 1,
-                            TotalDistance = 169.0m
+                            TariffSchemaId = 1
                         });
                 });
 
@@ -6069,25 +6138,6 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Departure", b =>
-                {
-                    b.HasOne("TrainTicketing.Entities.Route", "Route")
-                        .WithMany("Departures")
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TrainTicketing.Entities.Train", "Train")
-                        .WithMany()
-                        .HasForeignKey("TrainId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Route");
-
-                    b.Navigation("Train");
-                });
-
             modelBuilder.Entity("TrainTicketing.Entities.DepartureDetail", b =>
                 {
                     b.HasOne("TrainTicketing.Entities.Departure", "Departure")
@@ -6102,9 +6152,17 @@ namespace TrainTicketing.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.HasOne("TrainTicketing.Entities.Train", "Train")
+                        .WithMany()
+                        .HasForeignKey("TrainId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
                     b.Navigation("Departure");
 
                     b.Navigation("RouteDetail");
+
+                    b.Navigation("Train");
                 });
 
             modelBuilder.Entity("TrainTicketing.Entities.Reservation", b =>
@@ -6225,8 +6283,6 @@ namespace TrainTicketing.Database.Migrations
 
             modelBuilder.Entity("TrainTicketing.Entities.Route", b =>
                 {
-                    b.Navigation("Departures");
-
                     b.Navigation("RouteDetails");
                 });
 

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainTicketing.Entities;
 using System.Reflection;
+using Microsoft.Identity.Client;
 
 namespace TrainTicketing.Database;
 public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
@@ -33,6 +34,10 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
     public DbSet<Train> Trains { get; set; }
    
     public DbSet<SeatReservation> SeatReservationDetails { get; set; }
+
+    public DbSet<DepartureDetail> DepartureDetails { get; set; }
+
+    public DbSet<Departure> Departures { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
