@@ -49,10 +49,10 @@ public static class RoutesEndpoints
                                     {
                                         TrainName = d.Train.TrainName,
                                         DepartureDetails = d.DepartureDetails
-                                        .OrderBy(dd => dd.IsAwayFromTerminal == true ? dd.RouteDetail.OrderOfStationFromMain : -dd.RouteDetail.OrderOfStationFromMain)
+                                        .OrderBy(dd => dd.OutboundMain == true ? dd.RouteDetail.OrderOfStationFromMain : -dd.RouteDetail.OrderOfStationFromMain)
                                         .Select(dd => new
                                         {
-                                            Distance = dd.IsAwayFromTerminal == true ? dd.RouteDetail.DistanceFromMain : routeTotalDistance - dd.RouteDetail.DistanceFromMain,
+                                            Distance = dd.OutboundMain == true ? dd.RouteDetail.DistanceFromMain : routeTotalDistance - dd.RouteDetail.DistanceFromMain,
                                             DepartureTime = dd.DepatureTime,
                                             Station = dd.RouteDetail.Station.StationName
                                         })
