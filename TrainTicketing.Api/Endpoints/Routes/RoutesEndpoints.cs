@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
 
@@ -29,6 +30,7 @@ public static class RoutesEndpoints
             var route = await dbContext.Routes
                 .AsNoTracking()
                 .Where(r => r.RouteId == routeGuid)
+                .Include(r => r.MainTerminal)
                 .FirstOrDefaultAsync();
             
             if (route is null)
@@ -44,41 +46,24 @@ public static class RoutesEndpoints
 
             var routeTotalDistance = route.TotalDistance;
 
-            var departures =
+            var departuresTimetable =
                 await dbContext.Departures
                                     .AsNoTracking()
                                     .Where(r => r.RouteId == routeGuid)
+                                    .Include(d => d.Train)
                                     .Include(d => d.DepartureDetails)
                                         .ThenInclude(dd => dd.RouteDetail)
-                                        .ThenInclude(rd => rd!.Station)
-                                    .Include(d => d.Train)
-                                    .Select(d => new /*RouteDepartureAndTimesDto*/
-                                    {
-                                        OutbountMain = d.OutboundMain,
-                                        TrainName = d.Train.TrainName,
-                                        
-                                        //TrainName = d.Train.TrainName,
-                                        //DepartureDetails = d.DepartureDetails
-                                        //.OrderBy(dd => dd.OutboundMain == true ? dd.RouteDetail.OrderOfStationFromMain : -dd.RouteDetail.OrderOfStationFromMain)
-                                        //.Select(dd => new
-                                        //{
-                                        //    Distance = dd.OutboundMain == true ? dd.RouteDetail.DistanceFromMain : routeTotalDistance - dd.RouteDetail.DistanceFromMain,
-                                        //    DepartureTime = dd.DepatureTime,
-                                        //    Station = dd.RouteDetail.Station.StationName
-                                        //})
-                                    })
+                                    .Select(d => new RouteDepartureAndTimesDto( d.OutboundMain, d.Train.TrainName, d.DepartureDetails.Select(dd => dd.DepatureTime).ToList()))
                                     .ToListAsync();
 
-
-            RouteTimetableDto routeTimetable = new RouteTimetableDto(stationNamesOrdered, null);
-
-
-            if (departures is null)
+            foreach(var departureTimetable in departuresTimetable)
             {
-                return Results.NotFound();
+                departureTimetable.DepartureTimes.OrderBy(dt => dt * (departureTimetable.OutbountMain == true ? 1 : -1));
             }
 
-            return Results.Ok(departures);
+            RouteTimetableDto routeTimetable = new RouteTimetableDto(route.MainTerminal.StationName, stationNamesOrdered, departuresTimetable);
+
+            return Results.Ok(routeTimetable);
         });
     }
 }
