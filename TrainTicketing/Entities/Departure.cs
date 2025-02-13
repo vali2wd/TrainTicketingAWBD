@@ -12,6 +12,8 @@ public class Departure
 
     public ICollection<DepartureDetail> DepartureDetails { get; set; }
 
+    public bool OutboundMain { get; set; }
+
     public Guid TrainId { get; set; }
 
     public Train? Train { get; set; }
@@ -34,10 +36,10 @@ public class DepatureConfigurator : IEntityTypeConfiguration<Departure>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasData(
-            new Departure { DepartureId = 1, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a") },
-            new Departure { DepartureId = 2, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a") },
-            new Departure { DepartureId = 3, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a") },
-            new Departure { DepartureId = 4, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a") }
+            new Departure { DepartureId = 1, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a"), OutboundMain = true },
+            new Departure { DepartureId = 2, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a"), OutboundMain = false },
+            new Departure { DepartureId = 3, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a"), OutboundMain = true },
+            new Departure { DepartureId = 4, TrainId = Guid.Parse("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93"), RouteId = Guid.Parse("3dba6d64-acae-4cee-acff-630ef2b81d2a"), OutboundMain = false }
             );
 
     }
