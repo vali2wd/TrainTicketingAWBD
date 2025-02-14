@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrainTicketing.Api.Endpoints.Routes;
+using TrainTicketing.Api.HostedServices;
 using TrainTicketing.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,7 +37,8 @@ builder.Services
     }
     );
 
-
+builder.Services
+    .AddHostedService<DeparturePlanningJob>();
 
 
 var app = builder.Build();
