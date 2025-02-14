@@ -2,7 +2,9 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Serilog;
 using Serilog.Events;
+using TrainTicketing.Api.Endpoints.RouteAvailability;
 using TrainTicketing.Api.Endpoints.Routes;
+using TrainTicketing.Api.Endpoints.Stations;
 using TrainTicketing.Api.HostedServices;
 using TrainTicketing.Database;
 
@@ -69,6 +71,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.AddRouteEndpoints();
+app.AddStationsEndpoints();
+app.AddDepartureEndpoints();
 app.MapControllers();
 
 app.Run();

@@ -9,6 +9,8 @@ public static class StationsEndpoints
     {
         app.MapGet("/stations", async (TrainTicketingDbContext dbContext, CancellationToken ctx) => {
             var stations = await dbContext.Stations.ToListAsync(ctx);
+
+            return Results.Ok(stations);
         });
     }
 }
