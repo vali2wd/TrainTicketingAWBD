@@ -8,9 +8,12 @@ public class DeparturePlanningJob : BackgroundService
 {
     public IServiceProvider Services { get; }
 
-    public DeparturePlanningJob(IServiceProvider services)
+    public ILogger<DeparturePlanningJob> _logger { get; }
+
+    public DeparturePlanningJob(IServiceProvider services, ILogger<DeparturePlanningJob> _logger)
     {
         Services = services;
+        this._logger = _logger;
     }
 
     // should be logging here!!
@@ -41,6 +44,7 @@ public class DeparturePlanningJob : BackgroundService
                 DepartureId = departureId
             });
         }
+        _logger.LogInformation("Added departure dates for {0} departures", departureIds.Count);
         //await dbContext.SaveChangesAsync(cancellationToken);
     }
     public override async Task StopAsync(CancellationToken stoppingToken)
