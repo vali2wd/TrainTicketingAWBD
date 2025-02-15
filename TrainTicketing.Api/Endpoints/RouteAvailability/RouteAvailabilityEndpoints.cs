@@ -43,6 +43,7 @@ public static class RouteAvailabilityEndpoints
                 return Results.NotFound("The ending station does not exist");
             }
 
+            // All routes available that contain the two stations in the url. 
             var routesAvailable = await dbContext.DepartureDates
                                             .Where(dd => DateTime.Equals(dd.DateOfDeparture, date))
                                             .Include(dd => dd.Departure)
@@ -58,6 +59,8 @@ public static class RouteAvailabilityEndpoints
                                                 .ThenInclude(dd => dd.RouteDetail)
                                             .ToListAsync(ctx);
 
+            // Filter the routes available by the outbound main rule : if the departure station is before the arrival station in the route details, then it is outbound main.
+            // This is to get the routes that are going from the departure station to the arrival station.
             var routesAvailableFilteredByOutbound = routesAvailable
                 .Where(ra => ra.Departure.OutboundMain == 
                             (ra.Departure.Route.RouteDetails.First(rd => rd.StationId == departureStationId).OrderOfStationFromMain <
