@@ -1,6 +1,11 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
+using TrainTicketing.Api.Endpoints.RouteAvailability;
 using TrainTicketing.Api.Endpoints.Routes;
+using TrainTicketing.Api.Endpoints.Stations;
+using TrainTicketing.Api.HostedServices;
 using TrainTicketing.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -36,10 +41,23 @@ builder.Services
     }
     );
 
+builder.Services
+    .AddHostedService<DeparturePlanningJob>();
 
+Log.Logger = new LoggerConfiguration()
+    .WriteTo.Console()
+    .MinimumLevel.Verbose()
+    .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
+    .MinimumLevel.Override("Microsoft.Extensions.Hosting", LogEventLevel.Information)
+    .MinimumLevel.Override("Microsoft.Hosting", LogEventLevel.Information)
+    .CreateLogger();
+
+builder.Services.AddSerilog();
 
 
 var app = builder.Build();
+
+app.UseSerilogRequestLogging();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
@@ -53,6 +71,8 @@ app.UseHttpsRedirection();
 
 app.UseAuthorization();
 app.AddRouteEndpoints();
+app.AddStationsEndpoints();
+app.AddDepartureEndpoints();
 app.MapControllers();
 
 app.Run();
