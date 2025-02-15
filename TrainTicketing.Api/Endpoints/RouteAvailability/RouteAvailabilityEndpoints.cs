@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
 
@@ -9,6 +8,7 @@ public static class RouteAvailabilityEndpoints
 {
     public static void AddDepartureEndpoints(this IEndpointRouteBuilder app)
     {
+        //TODO : functionality where stations are on different routes and have common node so API will respond with change train at common node
         app.MapGet("/departures", async (string departureStation, string arrivalStation, DateTime date, TrainTicketingDbContext dbContext, CancellationToken ctx) =>
         {
             try
