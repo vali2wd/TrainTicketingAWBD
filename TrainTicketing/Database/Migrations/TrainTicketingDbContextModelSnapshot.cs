@@ -740,11 +740,11 @@ namespace TrainTicketing.Database.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
 
-                    b.Property<Guid>("RouteId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("DepartureId")
+                        .HasColumnType("int");
 
-                    b.Property<Guid>("TrainId")
-                        .HasColumnType("uniqueidentifier");
+                    b.Property<int>("SeatId")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .IsRequired()
@@ -752,9 +752,9 @@ namespace TrainTicketing.Database.Migrations
 
                     b.HasKey("ReservationId");
 
-                    b.HasIndex("RouteId");
+                    b.HasIndex("DepartureId");
 
-                    b.HasIndex("TrainId");
+                    b.HasIndex("SeatId");
 
                     b.HasIndex("UserId");
 
@@ -5401,20 +5401,25 @@ namespace TrainTicketing.Database.Migrations
 
             modelBuilder.Entity("TrainTicketing.Entities.SeatReservation", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("ReservationId")
                         .HasColumnType("int");
 
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("ReservationId", "SeatId");
+                    b.HasIndex("ReservationId");
 
                     b.HasIndex("SeatId");
 
-                    b.ToTable("SeatReservationDetails");
+                    b.ToTable("SeatReservation");
                 });
 
             modelBuilder.Entity("TrainTicketing.Entities.Station", b =>
@@ -6215,15 +6220,15 @@ namespace TrainTicketing.Database.Migrations
 
             modelBuilder.Entity("TrainTicketing.Entities.Reservation", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Route", "Route")
-                        .WithMany()
-                        .HasForeignKey("RouteId")
+                    b.HasOne("TrainTicketing.Entities.Departure", "Departure")
+                        .WithMany("Reservations")
+                        .HasForeignKey("DepartureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.Train", "Train")
+                    b.HasOne("TrainTicketing.Entities.Seat", "Seat")
                         .WithMany()
-                        .HasForeignKey("TrainId")
+                        .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
@@ -6233,9 +6238,9 @@ namespace TrainTicketing.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Route");
+                    b.Navigation("Departure");
 
-                    b.Navigation("Train");
+                    b.Navigation("Seat");
 
                     b.Navigation("User");
                 });
@@ -6292,7 +6297,7 @@ namespace TrainTicketing.Database.Migrations
             modelBuilder.Entity("TrainTicketing.Entities.SeatReservation", b =>
                 {
                     b.HasOne("TrainTicketing.Entities.Reservation", "Reservation")
-                        .WithMany("SeatReservations")
+                        .WithMany()
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -6322,11 +6327,8 @@ namespace TrainTicketing.Database.Migrations
             modelBuilder.Entity("TrainTicketing.Entities.Departure", b =>
                 {
                     b.Navigation("DepartureDetails");
-                });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Reservation", b =>
-                {
-                    b.Navigation("SeatReservations");
+                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("TrainTicketing.Entities.Route", b =>

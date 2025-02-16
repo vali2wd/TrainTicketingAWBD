@@ -12,6 +12,8 @@ public class Departure
 
     public ICollection<DepartureDetail> DepartureDetails { get; set; }
 
+    public ICollection<Reservation> Reservations { get; set; }
+
     public bool OutboundMain { get; set; }
 
     public Guid TrainId { get; set; }
