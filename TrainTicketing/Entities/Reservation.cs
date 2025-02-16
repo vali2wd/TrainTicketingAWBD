@@ -9,12 +9,6 @@ public class Reservation
 
     public IdentityUser User { get; set; }
 
-    //public Guid TrainId { get; set; }
-
-    //public Train Train { get; set; }
-
-    //public List<SeatReservation> SeatReservations { get; } = [];
-
     public int SeatId { get; set; }
     
     public Seat Seat { get; set; }
@@ -22,10 +16,6 @@ public class Reservation
     public int DepartureId { get; set; }
 
     public Departure Departure { get; set; }
-
-    //public Guid RouteId { get; set; }
-
-    //public Route Route { get; set; }
 }
 
 
@@ -37,15 +27,6 @@ public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
         builder.HasOne(r => r.User)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
-        //builder.HasOne(r => r.Train)
-        //    .WithMany()
-        //    .HasForeignKey(r => r.TrainId)
-        //    .OnDelete(DeleteBehavior.Restrict);
-
-        //builder.HasOne(r => r.Route)
-        //    .WithMany()
-        //    .HasForeignKey(r => r.RouteId)
-        //    .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(r => r.Departure)
             .WithMany(d => d.Reservations)

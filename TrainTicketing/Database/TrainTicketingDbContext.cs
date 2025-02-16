@@ -33,7 +33,6 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
    
     public DbSet<Train> Trains { get; set; }
    
-    //public DbSet<SeatReservation> SeatReservationDetails { get; set; }
 
     public DbSet<DepartureDetail> DepartureDetails { get; set; }
 
@@ -46,18 +45,5 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-
-        //modelBuilder.Entity<SeatReservation>()
-        //    .HasKey(sr => new { sr.ReservationId, sr.SeatId });
-
-        //modelBuilder.Entity<SeatReservation>()
-        //    .HasOne(sr => sr.Seat)
-        //    .WithMany(s => s.SeatReservations)
-        //    .HasForeignKey(sr => sr.SeatId);
-
-        //modelBuilder.Entity<SeatReservation>()
-        //    .HasOne(sr => sr.Reservation)
-        //    .WithMany(r => r.SeatReservations)
-        //    .HasForeignKey(sr => sr.ReservationId);
     }
 }
