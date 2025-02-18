@@ -16,10 +16,9 @@ public class DeparturePlanningJob : BackgroundService
         this._logger = _logger;
     }
 
-    // should be logging here!!
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(15));
+        using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromHours(24));
         _logger.LogInformation("Departure Planning Job is starting with time period of {0}", timer.Period);
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
         {
@@ -29,11 +28,14 @@ public class DeparturePlanningJob : BackgroundService
 
     public async Task AddAllDepartures(int daysFromToday, CancellationToken cancellationToken)
     {   
+
         using var scope = this.Services.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<TrainTicketingDbContext>();
 
-        var departureIds = await dbContext.Departures.Select(d => d.DepartureId).ToListAsync();
+        var trains = await dbContext.Trains.Include(t => t.Seats).AsNoTracking().ToListAsync();
+        var departureIds = await dbContext.Departures.AsNoTracking().Select(d => d.DepartureId).ToListAsync();
+        
 
         var futureDate = DateTime.UtcNow.AddDays(daysFromToday);
 
@@ -46,10 +48,24 @@ public class DeparturePlanningJob : BackgroundService
                 DateOfDeparture = futureDate,
                 DepartureId = departureId
             });
+
+            var departure = await dbContext.Departures
+                .FirstOrDefaultAsync(d => d.DepartureId == departureId);
+
+            var trainServing = trains.FirstOrDefault(t => t.TrainId == departure!.TrainId);
+
+            _logger.LogInformation("For departure {0}, {1} seats are added in the reservation as not reserved.", departureId, trainServing!.Seats.Count);
+            await dbContext.Reservations.AddRangeAsync(trainServing!.Seats.Select(s => new Reservation
+            {
+                DepartureId = departureId,
+                SeatId = s.SeatId,
+                IsReserved = false
+            }));
         }
         try
         {
-            //await dbContext.SaveChangesAsync(cancellationToken);
+            //UNCOMMENT THIS TO START SEEDING DEPARTURE DATES AND RESERVATIONS
+            await dbContext.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Successfully added {0} departures with date {1}", departureIds.Count, futureDate);
         }
         catch (OperationCanceledException oce)
