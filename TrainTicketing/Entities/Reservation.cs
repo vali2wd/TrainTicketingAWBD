@@ -11,6 +11,8 @@ public class Reservation
 
     public int SeatId { get; set; }
     
+    public bool IsReserved { get; set; }
+
     public Seat Seat { get; set; }
 
     public int DepartureId { get; set; }
@@ -35,6 +37,9 @@ public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
         builder.HasOne(r => r.User)
             .WithMany()
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property(r => r.SeatId)
+            .IsRequired();
 
         builder.HasOne(r => r.Departure)
             .WithMany(d => d.Reservations)
