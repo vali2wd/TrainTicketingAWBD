@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 namespace TrainTicketing.Entities;
+
 public class Reservation
 {
     public int ReservationId { get; set; }
@@ -16,6 +16,14 @@ public class Reservation
     public int DepartureId { get; set; }
 
     public Departure Departure { get; set; }
+
+    public int DepartureStationRouteDetailId { get; set; }
+
+    public RouteDetail DepartureStationRouteDetail { get; set; }
+
+    public int ArrivalStationRouteDetailId { get; set; }
+
+    public RouteDetail ArrivalStationRouteDetail { get; set; }
 }
 
 
@@ -37,5 +45,18 @@ public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
             .WithMany()
             .HasForeignKey(r => r.SeatId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(r => r.DepartureStationRouteDetail)
+            .WithMany()
+            .HasForeignKey(r => r.DepartureStationRouteDetailId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.HasOne(r => r.ArrivalStationRouteDetail)
+            .WithMany()
+            .HasForeignKey(r => r.ArrivalStationRouteDetailId)
+            .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property<byte[]>("Version")
+            .IsRowVersion();
     }
 }
