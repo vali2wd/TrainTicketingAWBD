@@ -7,7 +7,7 @@ public class Reservation
 {
     public int ReservationId { get; set; }
 
-    public IdentityUser User { get; set; }
+    public IdentityUser? User { get; set; }
 
     public int SeatId { get; set; }
     
@@ -17,11 +17,11 @@ public class Reservation
 
     public Departure Departure { get; set; }
 
-    public int DepartureStationRouteDetailId { get; set; }
+    public int? DepartureStationRouteDetailId { get; set; }
 
-    public RouteDetail DepartureStationRouteDetail { get; set; }
+    public RouteDetail? DepartureStationRouteDetail { get; set; }
 
-    public int ArrivalStationRouteDetailId { get; set; }
+    public int? ArrivalStationRouteDetailId { get; set; }
 
     public RouteDetail ArrivalStationRouteDetail { get; set; }
 }
