@@ -15,9 +15,12 @@ public class Reservation
 
     public Seat Seat { get; set; }
 
+    //TODO it should not be departure, but departure date
+    // TODO also refactor the departuredate table because it is hard to understand
+    // this departure date stands for an instance of a departure
     public int DepartureId { get; set; }
 
-    public Departure Departure { get; set; }
+    public DepartureSchedule Departure { get; set; }
 
     public int? DepartureStationRouteDetailId { get; set; }
 

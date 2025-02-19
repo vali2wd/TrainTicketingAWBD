@@ -34,7 +34,7 @@ public class DeparturePlanningJob : BackgroundService
         var dbContext = scope.ServiceProvider.GetRequiredService<TrainTicketingDbContext>();
 
         var trains = await dbContext.Trains.Include(t => t.Seats).AsNoTracking().ToListAsync();
-        var departureIds = await dbContext.Departures.AsNoTracking().Select(d => d.DepartureId).ToListAsync();
+        var departureIds = await dbContext.Departures.AsNoTracking().Select(d => d.DepartureScheduleId).ToListAsync();
         
 
         var futureDate = DateTime.UtcNow.AddDays(daysFromToday);
@@ -43,14 +43,14 @@ public class DeparturePlanningJob : BackgroundService
 
         foreach (var departureId in departureIds)
         {
-            dbContext.DepartureDates.Add(new DepartureDates
+            dbContext.DepartureDates.Add(new DailyDepartures
             {
                 DateOfDeparture = futureDate,
-                DepartureId = departureId
+                DepartureScheduleId = departureId
             });
 
             var departure = await dbContext.Departures
-                .FirstOrDefaultAsync(d => d.DepartureId == departureId);
+                .FirstOrDefaultAsync(d => d.DepartureScheduleId == departureId);
 
             var trainServing = trains.FirstOrDefault(t => t.TrainId == departure!.TrainId);
 

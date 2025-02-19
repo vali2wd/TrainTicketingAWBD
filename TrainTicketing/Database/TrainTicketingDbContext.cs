@@ -36,9 +36,9 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<DepartureDetail> DepartureDetails { get; set; }
 
-    public DbSet<Departure> Departures { get; set; }
+    public DbSet<DepartureSchedule> Departures { get; set; }
 
-    public DbSet<DepartureDates> DepartureDates { get; set; }
+    public DbSet<DailyDepartures> DepartureDates { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {

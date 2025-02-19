@@ -20,7 +20,7 @@ public class Route
 
     public ICollection<RouteDetail> RouteDetails { get; set; } = [];
 
-    public ICollection<Departure> Departures { get; set; }
+    public ICollection<DepartureSchedule> Departures { get; set; }
 
     public decimal TotalDistance { get; set; }
 }

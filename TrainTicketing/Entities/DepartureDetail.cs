@@ -9,7 +9,7 @@ public class DepartureDetail
 
     public int DepartureId { get; set; }
 
-    public Departure Departure { get; set; }
+    public DepartureSchedule Departure { get; set; }
 
     public int RouteDetailId { get; set; }
 

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainTicketing.Database;
 
@@ -11,9 +12,11 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    partial class TrainTicketingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250219093846_RenameDepartureRelatedEntities")]
+    partial class RenameDepartureRelatedEntities
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,96 +250,96 @@ namespace TrainTicketing.Database.Migrations
 
             modelBuilder.Entity("TrainTicketing.Entities.DailyDepartures", b =>
                 {
-                    b.Property<int>("DailyDepartureId")
+                    b.Property<int>("DepartureDateId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DailyDepartureId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureDateId"));
 
                     b.Property<DateTime>("DateOfDeparture")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("DepartureScheduleId")
+                    b.Property<int>("DepartureId")
                         .HasColumnType("int");
 
-                    b.HasKey("DailyDepartureId");
+                    b.HasKey("DepartureDateId");
 
-                    b.HasIndex("DepartureScheduleId");
+                    b.HasIndex("DepartureId");
 
                     b.ToTable("DepartureDates");
 
                     b.HasData(
                         new
                         {
-                            DailyDepartureId = 1,
+                            DepartureDateId = 1,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureId = 1
                         },
                         new
                         {
-                            DailyDepartureId = 2,
+                            DepartureDateId = 2,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureId = 2
                         },
                         new
                         {
-                            DailyDepartureId = 3,
+                            DepartureDateId = 3,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureId = 3
                         },
                         new
                         {
-                            DailyDepartureId = 4,
+                            DepartureDateId = 4,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureId = 4
                         },
                         new
                         {
-                            DailyDepartureId = 5,
+                            DepartureDateId = 5,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureId = 1
                         },
                         new
                         {
-                            DailyDepartureId = 6,
+                            DepartureDateId = 6,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureId = 2
                         },
                         new
                         {
-                            DailyDepartureId = 7,
+                            DepartureDateId = 7,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureId = 3
                         },
                         new
                         {
-                            DailyDepartureId = 8,
+                            DepartureDateId = 8,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureId = 4
                         },
                         new
                         {
-                            DailyDepartureId = 9,
+                            DepartureDateId = 9,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureId = 1
                         },
                         new
                         {
-                            DailyDepartureId = 10,
+                            DepartureDateId = 10,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureId = 2
                         },
                         new
                         {
-                            DailyDepartureId = 11,
+                            DepartureDateId = 11,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureId = 3
                         },
                         new
                         {
-                            DailyDepartureId = 12,
+                            DepartureDateId = 12,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureId = 4
                         });
                 });
 
@@ -676,13 +679,13 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedule", b =>
+            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedules", b =>
                 {
-                    b.Property<int>("DepartureScheduleId")
+                    b.Property<int>("DepartureIScheduleId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureScheduleId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureIScheduleId"));
 
                     b.Property<bool>("OutboundMain")
                         .HasColumnType("bit");
@@ -693,7 +696,7 @@ namespace TrainTicketing.Database.Migrations
                     b.Property<Guid>("TrainId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("DepartureScheduleId");
+                    b.HasKey("DepartureIScheduleId");
 
                     b.HasIndex("RouteId");
 
@@ -704,28 +707,28 @@ namespace TrainTicketing.Database.Migrations
                     b.HasData(
                         new
                         {
-                            DepartureScheduleId = 1,
+                            DepartureIScheduleId = 1,
                             OutboundMain = true,
                             RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
                             TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
-                            DepartureScheduleId = 2,
+                            DepartureIScheduleId = 2,
                             OutboundMain = false,
                             RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
                             TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
-                            DepartureScheduleId = 3,
+                            DepartureIScheduleId = 3,
                             OutboundMain = true,
                             RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
                             TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         },
                         new
                         {
-                            DepartureScheduleId = 4,
+                            DepartureIScheduleId = 4,
                             OutboundMain = false,
                             RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
                             TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
@@ -6188,18 +6191,18 @@ namespace TrainTicketing.Database.Migrations
 
             modelBuilder.Entity("TrainTicketing.Entities.DailyDepartures", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.DepartureSchedule", "DepartureSchedule")
+                    b.HasOne("TrainTicketing.Entities.DepartureSchedules", "Departure")
                         .WithMany()
-                        .HasForeignKey("DepartureScheduleId")
+                        .HasForeignKey("DepartureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("DepartureSchedule");
+                    b.Navigation("Departure");
                 });
 
             modelBuilder.Entity("TrainTicketing.Entities.DepartureDetail", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.DepartureSchedule", "Departure")
+                    b.HasOne("TrainTicketing.Entities.DepartureSchedules", "Departure")
                         .WithMany("DepartureDetails")
                         .HasForeignKey("DepartureId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6216,7 +6219,7 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("RouteDetail");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedule", b =>
+            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedules", b =>
                 {
                     b.HasOne("TrainTicketing.Entities.Route", "Route")
                         .WithMany("Departures")
@@ -6242,7 +6245,7 @@ namespace TrainTicketing.Database.Migrations
                         .HasForeignKey("ArrivalStationRouteDetailId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TrainTicketing.Entities.DepartureSchedule", "Departure")
+                    b.HasOne("TrainTicketing.Entities.DepartureSchedules", "Departure")
                         .WithMany("Reservations")
                         .HasForeignKey("DepartureId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6354,7 +6357,7 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("TariffSchema");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedule", b =>
+            modelBuilder.Entity("TrainTicketing.Entities.DepartureSchedules", b =>
                 {
                     b.Navigation("DepartureDetails");
 
