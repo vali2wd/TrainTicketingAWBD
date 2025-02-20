@@ -63,8 +63,5 @@ public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
             .WithMany()
             .HasForeignKey(r => r.ArrivalStationRouteDetailId)
             .OnDelete(DeleteBehavior.Restrict);
-
-        builder.Property<byte[]>("Version")
-            .IsRowVersion();
     }
 }
