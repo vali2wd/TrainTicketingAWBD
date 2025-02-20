@@ -47,6 +47,20 @@ namespace TrainTicketing.Database.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93",
+                            Name = "Worker",
+                            NormalizedName = "WORKER"
+                        },
+                        new
+                        {
+                            Id = "b51b257d-c584-41c6-93c1-7fcee36a8aa0",
+                            Name = "Client",
+                            NormalizedName = "CLIENT"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -137,6 +151,40 @@ namespace TrainTicketing.Database.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "3a7bceef-390d-497b-a81f-b3719470daae",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "6b8f3668-3ace-49c4-ade0-d9dcf04c895e",
+                            Email = "worker@email.ro",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "WORKER@EMAIL.RO",
+                            NormalizedUserName = "WORKER@EMAIL.RO",
+                            PasswordHash = "AQAAAAIAAYagAAAAEGAGDN3fdXhAIWzUNs/XwyDDxxnWgdIzWoflRHFcvUvj8ykB4xDGJJ0CCzC7zLg9Iw==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "898b3e64-eda4-4bf2-b42a-0dddea441675",
+                            TwoFactorEnabled = false,
+                            UserName = "worker@email.ro"
+                        },
+                        new
+                        {
+                            Id = "4affb04a-c718-4e07-8041-a55eb8b5defc",
+                            AccessFailedCount = 0,
+                            ConcurrencyStamp = "4c8ae971-209a-4910-a592-692205202486",
+                            Email = "client@email.ro",
+                            EmailConfirmed = true,
+                            LockoutEnabled = false,
+                            NormalizedEmail = "CLIENT@EMAIL.RO",
+                            NormalizedUserName = "CLIENT@EMAIL.RO",
+                            PasswordHash = "AQAAAAIAAYagAAAAELUk1M1fx9vuyJ3LdR1NkS1KhreqS2fvF63I4olQ4W9BUaEKFhTdA/T5KIdseALGZg==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "71bef33a-1dc1-4a7d-8d7d-9883a9a491d1",
+                            TwoFactorEnabled = false,
+                            UserName = "client@email.ro"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -199,6 +247,18 @@ namespace TrainTicketing.Database.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = "3a7bceef-390d-497b-a81f-b3719470daae",
+                            RoleId = "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93"
+                        },
+                        new
+                        {
+                            UserId = "4affb04a-c718-4e07-8041-a55eb8b5defc",
+                            RoleId = "b51b257d-c584-41c6-93c1-7fcee36a8aa0"
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<string>", b =>
@@ -6137,11 +6197,8 @@ namespace TrainTicketing.Database.Migrations
 
                     b.OwnsMany("TrainTicketing.DomainModel.Entities.Reservation", "_reservations", b1 =>
                         {
-                            b1.Property<int>("ReservationId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int");
-
-                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("ReservationId"));
+                            b1.Property<Guid>("ReservationId")
+                                .HasColumnType("uniqueidentifier");
 
                             b1.Property<int?>("ArrivalStationRouteDetailId")
                                 .HasColumnType("int");
@@ -6151,9 +6208,6 @@ namespace TrainTicketing.Database.Migrations
 
                             b1.Property<int?>("DepartureStationRouteDetailId")
                                 .HasColumnType("int");
-
-                            b1.Property<bool>("IsReserved")
-                                .HasColumnType("bit");
 
                             b1.Property<int>("SeatId")
                                 .HasColumnType("int");

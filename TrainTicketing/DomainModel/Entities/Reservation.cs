@@ -1,21 +1,16 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
 
 namespace TrainTicketing.DomainModel.Entities;
 
 public class Reservation
 {
-    public int ReservationId { get; set; }
+    public Guid ReservationId { get; set; }
 
     public IdentityUser? User { get; set; }
 
     public int SeatId { get; set; }
 
-    public bool IsReserved { get; set; }
-
-    public Seat Seat { get; set; }
+    public Seat? Seat { get; set; }
 
     ////TODO it should not be departure, but departure date
     //public int DailyDepartureId { get; set; }
@@ -28,7 +23,26 @@ public class Reservation
 
     public int? ArrivalStationRouteDetailId { get; set; }
 
-    public RouteDetail ArrivalStationRouteDetail { get; set; }
+    public RouteDetail? ArrivalStationRouteDetail { get; set; }
+    
+    private Reservation(IdentityUser? user, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
+    {
+        this.ReservationId = Guid.NewGuid();
+        this.User = user;
+        this.SeatId = seatId;
+        this.DepartureStationRouteDetailId = departureStationRouteDetailId;
+        this.ArrivalStationRouteDetailId = arrivalStationRouteDetailId;
+    }
+
+    /// <summary>
+    /// EF Core constructor - NEVER USE
+    /// </summary>
+    private Reservation() {  }
+
+    internal static Reservation CreateNew(IdentityUser? User, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
+    {
+        return new Reservation(User, seatId, departureStationRouteDetailId, arrivalStationRouteDetailId);
+    }
 }
 
 

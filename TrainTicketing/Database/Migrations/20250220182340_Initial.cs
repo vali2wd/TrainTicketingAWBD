@@ -396,11 +396,9 @@ namespace TrainTicketing.Database.Migrations
                 name: "Reservations",
                 columns: table => new
                 {
-                    ReservationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
+                    ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     SeatId = table.Column<int>(type: "int", nullable: false),
-                    IsReserved = table.Column<bool>(type: "bit", nullable: false),
                     DepartureStationRouteDetailId = table.Column<int>(type: "int", nullable: true),
                     ArrivalStationRouteDetailId = table.Column<int>(type: "int", nullable: true),
                     DailyDepartureId = table.Column<int>(type: "int", nullable: false)
@@ -438,6 +436,24 @@ namespace TrainTicketing.Database.Migrations
                         principalTable: "Seats",
                         principalColumn: "SeatId",
                         onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetRoles",
+                columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
+                values: new object[,]
+                {
+                    { "b51b257d-c584-41c6-93c1-7fcee36a8aa0", null, "Client", "CLIENT" },
+                    { "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93", null, "Worker", "WORKER" }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUsers",
+                columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
+                values: new object[,]
+                {
+                    { "3a7bceef-390d-497b-a81f-b3719470daae", 0, "6b8f3668-3ace-49c4-ade0-d9dcf04c895e", "worker@email.ro", true, false, null, "WORKER@EMAIL.RO", "WORKER@EMAIL.RO", "AQAAAAIAAYagAAAAEGAGDN3fdXhAIWzUNs/XwyDDxxnWgdIzWoflRHFcvUvj8ykB4xDGJJ0CCzC7zLg9Iw==", null, false, "898b3e64-eda4-4bf2-b42a-0dddea441675", false, "worker@email.ro" },
+                    { "4affb04a-c718-4e07-8041-a55eb8b5defc", 0, "4c8ae971-209a-4910-a592-692205202486", "client@email.ro", true, false, null, "CLIENT@EMAIL.RO", "CLIENT@EMAIL.RO", "AQAAAAIAAYagAAAAELUk1M1fx9vuyJ3LdR1NkS1KhreqS2fvF63I4olQ4W9BUaEKFhTdA/T5KIdseALGZg==", null, false, "71bef33a-1dc1-4a7d-8d7d-9883a9a491d1", false, "client@email.ro" }
                 });
 
             migrationBuilder.InsertData(
@@ -498,6 +514,15 @@ namespace TrainTicketing.Database.Migrations
                     { new Guid("5e6adc1c-5279-47f9-b6e5-dccc00e02350"), "Local D", 0 },
                     { new Guid("8be4b93d-68ab-4d5d-aa7a-73264548117b"), "Superfast C", 1 },
                     { new Guid("98407e8c-f851-4afc-ae75-061d9f563e9c"), "Regional B", 0 }
+                });
+
+            migrationBuilder.InsertData(
+                table: "AspNetUserRoles",
+                columns: new[] { "RoleId", "UserId" },
+                values: new object[,]
+                {
+                    { "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93", "3a7bceef-390d-497b-a81f-b3719470daae" },
+                    { "b51b257d-c584-41c6-93c1-7fcee36a8aa0", "4affb04a-c718-4e07-8041-a55eb8b5defc" }
                 });
 
             migrationBuilder.InsertData(

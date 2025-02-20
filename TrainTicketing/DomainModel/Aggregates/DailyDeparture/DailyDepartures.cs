@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.DomainModel.Kernel;
@@ -17,6 +18,23 @@ public class DailyDepartures : AggregateRootBase
     private List<Reservation> _reservations;
 
     private DateTime? _modifyDate;
+
+    //private DailyDepartures()
+    //{
+    //    _reservations = new List<Reservation>();
+    //}
+
+    public void AddReservation(
+        IdentityUser? user,
+        int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
+    {
+        //to implement logic for train seat availability ... for now leave like this.
+        _reservations.Add(Reservation.CreateNew(user, seatId, departureStationRouteDetailId, arrivalStationRouteDetailId));
+
+        _modifyDate = DateTime.Now;
+
+        AddDomainEvent(new ReservationAddedEvent(this.DailyDepartureId));
+    }
 }
 
 public sealed class DepartureDatesConfigurator : IEntityTypeConfiguration<DailyDepartures>
@@ -35,6 +53,7 @@ public sealed class DepartureDatesConfigurator : IEntityTypeConfiguration<DailyD
         builder.OwnsMany<Reservation>("_reservations", reservation =>
         {
             reservation.WithOwner().HasForeignKey("DailyDepartureId");
+            reservation.Property(r => r.ReservationId).ValueGeneratedNever();
             reservation.HasKey(r => r.ReservationId);
             reservation.HasOne(r => r.User)
                 .WithMany()

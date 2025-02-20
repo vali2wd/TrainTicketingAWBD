@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
+using Infrastructure.Helpers;
+using Microsoft.EntityFrameworkCore.Diagnostics;
 
 namespace TrainTicketing.Database;
 public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
@@ -44,5 +46,15 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
         base.OnModelCreating(modelBuilder);
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+
+        SeedUsersRoles seedUsersRoles = new();
+        modelBuilder.Entity<IdentityRole>().HasData(seedUsersRoles.Roles);
+        modelBuilder.Entity<IdentityUser>().HasData(seedUsersRoles.Users);
+        modelBuilder.Entity<IdentityUserRole<string>>().HasData(seedUsersRoles.UserRoles);
+    }
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+    {
+        optionsBuilder.ConfigureWarnings(warnings =>
+                    warnings.Ignore(RelationalEventId.PendingModelChangesWarning));
     }
 }
