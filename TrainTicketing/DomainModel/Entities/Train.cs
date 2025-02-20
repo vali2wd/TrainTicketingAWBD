@@ -1,13 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
+namespace TrainTicketing.DomainModel.Entities;
 
-public class Train
+public class Train : Entity
 {
     public Guid TrainId { get; set; }
 
-    public string TrainName { get; set;  } = null!;
+    public string TrainName { get; set; } = null!;
 
     public TrainType TrainType { get; set; }
 

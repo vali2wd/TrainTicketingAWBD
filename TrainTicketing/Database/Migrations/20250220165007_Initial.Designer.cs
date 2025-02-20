@@ -12,8 +12,8 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    [Migration("20250218183948_MakeReservationPropertiesOptionalForSeedingAtJob")]
-    partial class MakeReservationPropertiesOptionalForSeedingAtJob
+    [Migration("20250220165007_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -223,7 +223,102 @@ namespace TrainTicketing.Database.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Announcement", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Aggregates.DailyDeparture.DailyDepartures", b =>
+                {
+                    b.Property<int>("DailyDepartureId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DailyDepartureId"));
+
+                    b.Property<DateTime>("DateOfDeparture")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("DepartureScheduleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("DailyDepartureId");
+
+                    b.HasIndex("DepartureScheduleId");
+
+                    b.ToTable("DailyDepartures");
+
+                    b.HasData(
+                        new
+                        {
+                            DailyDepartureId = 1,
+                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 1
+                        },
+                        new
+                        {
+                            DailyDepartureId = 2,
+                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 2
+                        },
+                        new
+                        {
+                            DailyDepartureId = 3,
+                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 3
+                        },
+                        new
+                        {
+                            DailyDepartureId = 4,
+                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 4
+                        },
+                        new
+                        {
+                            DailyDepartureId = 5,
+                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 1
+                        },
+                        new
+                        {
+                            DailyDepartureId = 6,
+                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 2
+                        },
+                        new
+                        {
+                            DailyDepartureId = 7,
+                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 3
+                        },
+                        new
+                        {
+                            DailyDepartureId = 8,
+                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 4
+                        },
+                        new
+                        {
+                            DailyDepartureId = 9,
+                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 1
+                        },
+                        new
+                        {
+                            DailyDepartureId = 10,
+                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 2
+                        },
+                        new
+                        {
+                            DailyDepartureId = 11,
+                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 3
+                        },
+                        new
+                        {
+                            DailyDepartureId = 12,
+                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            DepartureScheduleId = 4
+                        });
+                });
+
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Announcement", b =>
                 {
                     b.Property<Guid>("AnnouncementId")
                         .ValueGeneratedOnAdd()
@@ -248,158 +343,7 @@ namespace TrainTicketing.Database.Migrations
                     b.ToTable("Announcements");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Departure", b =>
-                {
-                    b.Property<int>("DepartureId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureId"));
-
-                    b.Property<bool>("OutboundMain")
-                        .HasColumnType("bit");
-
-                    b.Property<Guid>("RouteId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("TrainId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("DepartureId");
-
-                    b.HasIndex("RouteId");
-
-                    b.HasIndex("TrainId");
-
-                    b.ToTable("Departures");
-
-                    b.HasData(
-                        new
-                        {
-                            DepartureId = 1,
-                            OutboundMain = true,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
-                        },
-                        new
-                        {
-                            DepartureId = 2,
-                            OutboundMain = false,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
-                        },
-                        new
-                        {
-                            DepartureId = 3,
-                            OutboundMain = true,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
-                        },
-                        new
-                        {
-                            DepartureId = 4,
-                            OutboundMain = false,
-                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
-                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
-                        });
-                });
-
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureDates", b =>
-                {
-                    b.Property<int>("DepartureDateId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureDateId"));
-
-                    b.Property<DateTime>("DateOfDeparture")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("DepartureId")
-                        .HasColumnType("int");
-
-                    b.HasKey("DepartureDateId");
-
-                    b.HasIndex("DepartureId");
-
-                    b.ToTable("DepartureDates");
-
-                    b.HasData(
-                        new
-                        {
-                            DepartureDateId = 1,
-                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 1
-                        },
-                        new
-                        {
-                            DepartureDateId = 2,
-                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 2
-                        },
-                        new
-                        {
-                            DepartureDateId = 3,
-                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 3
-                        },
-                        new
-                        {
-                            DepartureDateId = 4,
-                            DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 4
-                        },
-                        new
-                        {
-                            DepartureDateId = 5,
-                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 1
-                        },
-                        new
-                        {
-                            DepartureDateId = 6,
-                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 2
-                        },
-                        new
-                        {
-                            DepartureDateId = 7,
-                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 3
-                        },
-                        new
-                        {
-                            DepartureDateId = 8,
-                            DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 4
-                        },
-                        new
-                        {
-                            DepartureDateId = 9,
-                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 1
-                        },
-                        new
-                        {
-                            DepartureDateId = 10,
-                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 2
-                        },
-                        new
-                        {
-                            DepartureDateId = 11,
-                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 3
-                        },
-                        new
-                        {
-                            DepartureDateId = 12,
-                            DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureId = 4
-                        });
-                });
-
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureDetail", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -735,7 +679,63 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Reservation", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureSchedule", b =>
+                {
+                    b.Property<int>("DepartureScheduleId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DepartureScheduleId"));
+
+                    b.Property<bool>("OutboundMain")
+                        .HasColumnType("bit");
+
+                    b.Property<Guid>("RouteId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("TrainId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("DepartureScheduleId");
+
+                    b.HasIndex("RouteId");
+
+                    b.HasIndex("TrainId");
+
+                    b.ToTable("DepartureSchedules");
+
+                    b.HasData(
+                        new
+                        {
+                            DepartureScheduleId = 1,
+                            OutboundMain = true,
+                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                        },
+                        new
+                        {
+                            DepartureScheduleId = 2,
+                            OutboundMain = false,
+                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                        },
+                        new
+                        {
+                            DepartureScheduleId = 3,
+                            OutboundMain = true,
+                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                        },
+                        new
+                        {
+                            DepartureScheduleId = 4,
+                            OutboundMain = false,
+                            RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
+                            TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
+                        });
+                });
+
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Reservation", b =>
                 {
                     b.Property<int>("ReservationId")
                         .ValueGeneratedOnAdd()
@@ -746,11 +746,17 @@ namespace TrainTicketing.Database.Migrations
                     b.Property<int?>("ArrivalStationRouteDetailId")
                         .HasColumnType("int");
 
-                    b.Property<int>("DepartureId")
+                    b.Property<int>("DailyDepartureId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("DepartureScheduleId")
                         .HasColumnType("int");
 
                     b.Property<int?>("DepartureStationRouteDetailId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("IsReserved")
+                        .HasColumnType("bit");
 
                     b.Property<int>("SeatId")
                         .HasColumnType("int");
@@ -767,7 +773,9 @@ namespace TrainTicketing.Database.Migrations
 
                     b.HasIndex("ArrivalStationRouteDetailId");
 
-                    b.HasIndex("DepartureId");
+                    b.HasIndex("DailyDepartureId");
+
+                    b.HasIndex("DepartureScheduleId");
 
                     b.HasIndex("DepartureStationRouteDetailId");
 
@@ -778,7 +786,7 @@ namespace TrainTicketing.Database.Migrations
                     b.ToTable("Reservations");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Route", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
                 {
                     b.Property<Guid>("RouteId")
                         .ValueGeneratedOnAdd()
@@ -823,7 +831,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.RouteDetail", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.RouteDetail", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -943,7 +951,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Seat", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Seat", b =>
                 {
                     b.Property<int>("SeatId")
                         .ValueGeneratedOnAdd()
@@ -5416,7 +5424,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.SeatReservation", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.SeatReservation", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -5439,7 +5447,7 @@ namespace TrainTicketing.Database.Migrations
                     b.ToTable("SeatReservation");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Station", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Station", b =>
                 {
                     b.Property<Guid>("StationId")
                         .ValueGeneratedOnAdd()
@@ -5637,7 +5645,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.TariffRanges", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffRanges", b =>
                 {
                     b.Property<int>("TariffRangeId")
                         .ValueGeneratedOnAdd()
@@ -6048,7 +6056,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.TariffSchema", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffSchema", b =>
                 {
                     b.Property<int>("TariffSchemaId")
                         .ValueGeneratedOnAdd()
@@ -6073,7 +6081,7 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Train", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Train", b =>
                 {
                     b.Property<Guid>("TrainId")
                         .ValueGeneratedOnAdd()
@@ -6175,7 +6183,18 @@ namespace TrainTicketing.Database.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Announcement", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Aggregates.DailyDeparture.DailyDepartures", b =>
+                {
+                    b.HasOne("TrainTicketing.DomainModel.Entities.DepartureSchedule", "DepartureSchedule")
+                        .WithMany()
+                        .HasForeignKey("DepartureScheduleId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("DepartureSchedule");
+                });
+
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Announcement", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "CreatedBy")
                         .WithMany()
@@ -6186,45 +6205,15 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("CreatedBy");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Departure", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureDetail", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Route", "Route")
-                        .WithMany("Departures")
-                        .HasForeignKey("RouteId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TrainTicketing.Entities.Train", "Train")
-                        .WithMany()
-                        .HasForeignKey("TrainId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Route");
-
-                    b.Navigation("Train");
-                });
-
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureDates", b =>
-                {
-                    b.HasOne("TrainTicketing.Entities.Departure", "Departure")
-                        .WithMany()
-                        .HasForeignKey("DepartureId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("Departure");
-                });
-
-            modelBuilder.Entity("TrainTicketing.Entities.DepartureDetail", b =>
-                {
-                    b.HasOne("TrainTicketing.Entities.Departure", "Departure")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.DepartureSchedule", "Departure")
                         .WithMany("DepartureDetails")
                         .HasForeignKey("DepartureId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.RouteDetail", "RouteDetail")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "RouteDetail")
                         .WithMany("DepatureDetails")
                         .HasForeignKey("RouteDetailId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6235,25 +6224,48 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("RouteDetail");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Reservation", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureSchedule", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.RouteDetail", "ArrivalStationRouteDetail")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Route", "Route")
+                        .WithMany("Departures")
+                        .HasForeignKey("RouteId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Train", "Train")
+                        .WithMany()
+                        .HasForeignKey("TrainId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("Route");
+
+                    b.Navigation("Train");
+                });
+
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Reservation", b =>
+                {
+                    b.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "ArrivalStationRouteDetail")
                         .WithMany()
                         .HasForeignKey("ArrivalStationRouteDetailId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TrainTicketing.Entities.Departure", "Departure")
-                        .WithMany("Reservations")
-                        .HasForeignKey("DepartureId")
+                    b.HasOne("TrainTicketing.DomainModel.Aggregates.DailyDeparture.DailyDepartures", "DailyDeparture")
+                        .WithMany()
+                        .HasForeignKey("DailyDepartureId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.RouteDetail", "DepartureStationRouteDetail")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.DepartureSchedule", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("DepartureScheduleId");
+
+                    b.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "DepartureStationRouteDetail")
                         .WithMany()
                         .HasForeignKey("DepartureStationRouteDetailId")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.HasOne("TrainTicketing.Entities.Seat", "Seat")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Seat", "Seat")
                         .WithMany()
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6266,7 +6278,7 @@ namespace TrainTicketing.Database.Migrations
 
                     b.Navigation("ArrivalStationRouteDetail");
 
-                    b.Navigation("Departure");
+                    b.Navigation("DailyDeparture");
 
                     b.Navigation("DepartureStationRouteDetail");
 
@@ -6275,15 +6287,15 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Route", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Station", "MainTerminal")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Station", "MainTerminal")
                         .WithMany()
                         .HasForeignKey("MainTerminalId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.TariffSchema", "TariffSchema")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.TariffSchema", "TariffSchema")
                         .WithMany()
                         .HasForeignKey("TariffSchemaId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6294,15 +6306,15 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("TariffSchema");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.RouteDetail", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.RouteDetail", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Route", "Route")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Route", "Route")
                         .WithMany("RouteDetails")
                         .HasForeignKey("RouteId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.Station", "Station")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Station", "Station")
                         .WithMany()
                         .HasForeignKey("StationId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6313,9 +6325,9 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("Station");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Seat", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Seat", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Train", "Train")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Train", "Train")
                         .WithMany("Seats")
                         .HasForeignKey("TrainId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6324,15 +6336,15 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("Train");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.SeatReservation", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.SeatReservation", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.Reservation", "Reservation")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Reservation", "Reservation")
                         .WithMany()
                         .HasForeignKey("ReservationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrainTicketing.Entities.Seat", "Seat")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.Seat", "Seat")
                         .WithMany("SeatReservations")
                         .HasForeignKey("SeatId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -6343,9 +6355,9 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("Seat");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.TariffRanges", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffRanges", b =>
                 {
-                    b.HasOne("TrainTicketing.Entities.TariffSchema", "TariffSchema")
+                    b.HasOne("TrainTicketing.DomainModel.Entities.TariffSchema", "TariffSchema")
                         .WithMany("TariffRanges")
                         .HasForeignKey("TariffSchemaId")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -6354,36 +6366,36 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("TariffSchema");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Departure", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureSchedule", b =>
                 {
                     b.Navigation("DepartureDetails");
 
                     b.Navigation("Reservations");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Route", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
                 {
                     b.Navigation("Departures");
 
                     b.Navigation("RouteDetails");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.RouteDetail", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.RouteDetail", b =>
                 {
                     b.Navigation("DepatureDetails");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Seat", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Seat", b =>
                 {
                     b.Navigation("SeatReservations");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.TariffSchema", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffSchema", b =>
                 {
                     b.Navigation("TariffRanges");
                 });
 
-            modelBuilder.Entity("TrainTicketing.Entities.Train", b =>
+            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Train", b =>
                 {
                     b.Navigation("Seats");
                 });

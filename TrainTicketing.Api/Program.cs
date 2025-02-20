@@ -73,6 +73,7 @@ app.UseAuthorization();
 app.AddRouteEndpoints();
 app.AddStationsEndpoints();
 app.AddDepartureEndpoints();
+//app.AddRouteReservationEndpoints();
 app.MapControllers();
 
 app.Run();

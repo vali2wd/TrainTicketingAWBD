@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class Station
+namespace TrainTicketing.DomainModel.Entities;
+public class Station : Entity
 {
     public Guid StationId { get; set; }
 

@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class Route
+namespace TrainTicketing.DomainModel.Entities;
+public class Route : Entity
 {
     public Guid RouteId { get; set; }
 
@@ -15,7 +16,7 @@ public class Route
     public int TariffSchemaId { get; set; }
 
     public TariffSchema TariffSchema { get; set; } = null!;
-    
+
     public string ImagePath { get; set; } = null!;
 
     public ICollection<RouteDetail> RouteDetails { get; set; } = [];
@@ -45,7 +46,7 @@ public class RouteConfigurator : IEntityTypeConfiguration<Route>
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.Property(r => r.TotalDistance)
-            .HasPrecision(8,4)
+            .HasPrecision(8, 4)
             .IsRequired();
 
         builder.HasData(

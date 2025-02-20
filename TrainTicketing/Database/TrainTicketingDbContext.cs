@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using TrainTicketing.Entities;
 using System.Reflection;
 using Microsoft.Identity.Client;
+using TrainTicketing.DomainModel.Entities;
+using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
 
 namespace TrainTicketing.Database;
 public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>

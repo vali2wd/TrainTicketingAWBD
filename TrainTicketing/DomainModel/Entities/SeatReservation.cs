@@ -1,5 +1,7 @@
-﻿namespace TrainTicketing.Entities;
-public class SeatReservation
+﻿using TrainTicketing.DomainModel.Kernel;
+
+namespace TrainTicketing.DomainModel.Entities;
+public class SeatReservation : Entity
 {
     public int Id { get; set; }
 

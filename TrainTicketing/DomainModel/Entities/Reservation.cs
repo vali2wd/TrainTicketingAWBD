@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-namespace TrainTicketing.Entities;
+using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
+
+namespace TrainTicketing.DomainModel.Entities;
 
 public class Reservation
 {
@@ -10,17 +12,15 @@ public class Reservation
     public IdentityUser? User { get; set; }
 
     public int SeatId { get; set; }
-    
+
     public bool IsReserved { get; set; }
 
     public Seat Seat { get; set; }
 
     //TODO it should not be departure, but departure date
-    // TODO also refactor the departuredate table because it is hard to understand
-    // this departure date stands for an instance of a departure
-    public int DepartureId { get; set; }
+    public int DailyDepartureId { get; set; }
 
-    public DepartureSchedule Departure { get; set; }
+    public DailyDepartures DailyDeparture { get; set; }
 
     public int? DepartureStationRouteDetailId { get; set; }
 
@@ -44,9 +44,9 @@ public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
         builder.Property(r => r.SeatId)
             .IsRequired();
 
-        builder.HasOne(r => r.Departure)
-            .WithMany(d => d.Reservations)
-            .HasForeignKey(r => r.DepartureId)
+        builder.HasOne(r => r.DailyDeparture)
+            .WithMany()
+            .HasForeignKey(r => r.DailyDepartureId)
             .OnDelete(DeleteBehavior.Restrict);
 
         builder.HasOne(r => r.Seat)

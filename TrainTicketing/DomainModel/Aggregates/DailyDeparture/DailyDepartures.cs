@@ -1,8 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Entities;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class DailyDepartures
+namespace TrainTicketing.DomainModel.Aggregates.DailyDeparture;
+public class DailyDepartures : AggregateRootBase
 {
     public int DailyDepartureId { get; set; }
 

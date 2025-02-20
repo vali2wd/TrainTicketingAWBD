@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class Seat
+namespace TrainTicketing.DomainModel.Entities;
+public class Seat : Entity
 {
     public int SeatId { get; set; }
 
@@ -12,7 +13,7 @@ public class Seat
 
     public Train Train { get; set; } = null!;
 
-    public SeatClass SeatClass{ get; set; }
+    public SeatClass SeatClass { get; set; }
 
     public List<SeatReservation> SeatReservations { get; } = [];
 }

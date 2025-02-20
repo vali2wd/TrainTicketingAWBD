@@ -1,10 +1,11 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class TariffSchema
+namespace TrainTicketing.DomainModel.Entities;
+public class TariffSchema : Entity
 {
-    public int TariffSchemaId { get; set;  }
+    public int TariffSchemaId { get; set; }
 
     public string TariffSchemaName { get; set; } = null!;
 

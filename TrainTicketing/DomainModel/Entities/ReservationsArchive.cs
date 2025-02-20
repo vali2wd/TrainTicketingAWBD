@@ -1,9 +1,10 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class ReservationsArchive
+namespace TrainTicketing.DomainModel.Entities;
+public class ReservationsArchive : Entity
 {
     public int ReservationId { get; set; }
 

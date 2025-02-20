@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class TariffRanges
+namespace TrainTicketing.DomainModel.Entities;
+public class TariffRanges : Entity
 {
     public int TariffRangeId { get; set; }
 

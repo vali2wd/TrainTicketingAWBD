@@ -289,10 +289,10 @@ namespace TrainTicketing.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Departures",
+                name: "DepartureSchedules",
                 columns: table => new
                 {
-                    DepartureId = table.Column<int>(type: "int", nullable: false)
+                    DepartureScheduleId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     RouteId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     OutboundMain = table.Column<bool>(type: "bit", nullable: false),
@@ -300,15 +300,15 @@ namespace TrainTicketing.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Departures", x => x.DepartureId);
+                    table.PrimaryKey("PK_DepartureSchedules", x => x.DepartureScheduleId);
                     table.ForeignKey(
-                        name: "FK_Departures_Routes_RouteId",
+                        name: "FK_DepartureSchedules_Routes_RouteId",
                         column: x => x.RouteId,
                         principalTable: "Routes",
                         principalColumn: "RouteId",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Departures_Trains_TrainId",
+                        name: "FK_DepartureSchedules_Trains_TrainId",
                         column: x => x.TrainId,
                         principalTable: "Trains",
                         principalColumn: "TrainId",
@@ -344,55 +344,22 @@ namespace TrainTicketing.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "DepartureDates",
+                name: "DailyDepartures",
                 columns: table => new
                 {
-                    DepartureDateId = table.Column<int>(type: "int", nullable: false)
+                    DailyDepartureId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DateOfDeparture = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    DepartureId = table.Column<int>(type: "int", nullable: false)
+                    DepartureScheduleId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_DepartureDates", x => x.DepartureDateId);
+                    table.PrimaryKey("PK_DailyDepartures", x => x.DailyDepartureId);
                     table.ForeignKey(
-                        name: "FK_DepartureDates_Departures_DepartureId",
-                        column: x => x.DepartureId,
-                        principalTable: "Departures",
-                        principalColumn: "DepartureId",
-                        onDelete: ReferentialAction.Restrict);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reservations",
-                columns: table => new
-                {
-                    ReservationId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    SeatId = table.Column<int>(type: "int", nullable: false),
-                    DepartureId = table.Column<int>(type: "int", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
-                    table.ForeignKey(
-                        name: "FK_Reservations_AspNetUsers_UserId",
-                        column: x => x.UserId,
-                        principalTable: "AspNetUsers",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Departures_DepartureId",
-                        column: x => x.DepartureId,
-                        principalTable: "Departures",
-                        principalColumn: "DepartureId",
-                        onDelete: ReferentialAction.Restrict);
-                    table.ForeignKey(
-                        name: "FK_Reservations_Seats_SeatId",
-                        column: x => x.SeatId,
-                        principalTable: "Seats",
-                        principalColumn: "SeatId",
+                        name: "FK_DailyDepartures_DepartureSchedules_DepartureScheduleId",
+                        column: x => x.DepartureScheduleId,
+                        principalTable: "DepartureSchedules",
+                        principalColumn: "DepartureScheduleId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -410,16 +377,71 @@ namespace TrainTicketing.Database.Migrations
                 {
                     table.PrimaryKey("PK_DepartureDetails", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_DepartureDetails_Departures_DepartureId",
+                        name: "FK_DepartureDetails_DepartureSchedules_DepartureId",
                         column: x => x.DepartureId,
-                        principalTable: "Departures",
-                        principalColumn: "DepartureId",
+                        principalTable: "DepartureSchedules",
+                        principalColumn: "DepartureScheduleId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_DepartureDetails_RouteDetails_RouteDetailId",
                         column: x => x.RouteDetailId,
                         principalTable: "RouteDetails",
                         principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reservations",
+                columns: table => new
+                {
+                    ReservationId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    UserId = table.Column<string>(type: "nvarchar(450)", nullable: true),
+                    SeatId = table.Column<int>(type: "int", nullable: false),
+                    IsReserved = table.Column<bool>(type: "bit", nullable: false),
+                    DailyDepartureId = table.Column<int>(type: "int", nullable: false),
+                    DepartureStationRouteDetailId = table.Column<int>(type: "int", nullable: true),
+                    ArrivalStationRouteDetailId = table.Column<int>(type: "int", nullable: true),
+                    DepartureScheduleId = table.Column<int>(type: "int", nullable: true),
+                    Version = table.Column<byte[]>(type: "rowversion", rowVersion: true, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                    table.ForeignKey(
+                        name: "FK_Reservations_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_DailyDepartures_DailyDepartureId",
+                        column: x => x.DailyDepartureId,
+                        principalTable: "DailyDepartures",
+                        principalColumn: "DailyDepartureId",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_DepartureSchedules_DepartureScheduleId",
+                        column: x => x.DepartureScheduleId,
+                        principalTable: "DepartureSchedules",
+                        principalColumn: "DepartureScheduleId");
+                    table.ForeignKey(
+                        name: "FK_Reservations_RouteDetails_ArrivalStationRouteDetailId",
+                        column: x => x.ArrivalStationRouteDetailId,
+                        principalTable: "RouteDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_RouteDetails_DepartureStationRouteDetailId",
+                        column: x => x.DepartureStationRouteDetailId,
+                        principalTable: "RouteDetails",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Reservations_Seats_SeatId",
+                        column: x => x.SeatId,
+                        principalTable: "Seats",
+                        principalColumn: "SeatId",
                         onDelete: ReferentialAction.Restrict);
                 });
 
@@ -1206,8 +1228,8 @@ namespace TrainTicketing.Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "Departures",
-                columns: new[] { "DepartureId", "OutboundMain", "RouteId", "TrainId" },
+                table: "DepartureSchedules",
+                columns: new[] { "DepartureScheduleId", "OutboundMain", "RouteId", "TrainId" },
                 values: new object[,]
                 {
                     { 1, true, new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"), new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93") },
@@ -1235,8 +1257,8 @@ namespace TrainTicketing.Database.Migrations
                 });
 
             migrationBuilder.InsertData(
-                table: "DepartureDates",
-                columns: new[] { "DepartureDateId", "DateOfDeparture", "DepartureId" },
+                table: "DailyDepartures",
+                columns: new[] { "DailyDepartureId", "DateOfDeparture", "DepartureScheduleId" },
                 values: new object[,]
                 {
                     { 1, new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified), 1 },
@@ -1349,9 +1371,9 @@ namespace TrainTicketing.Database.Migrations
                 filter: "[NormalizedUserName] IS NOT NULL");
 
             migrationBuilder.CreateIndex(
-                name: "IX_DepartureDates_DepartureId",
-                table: "DepartureDates",
-                column: "DepartureId");
+                name: "IX_DailyDepartures_DepartureScheduleId",
+                table: "DailyDepartures",
+                column: "DepartureScheduleId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_DepartureDetails_DepartureId",
@@ -1364,19 +1386,34 @@ namespace TrainTicketing.Database.Migrations
                 column: "RouteDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Departures_RouteId",
-                table: "Departures",
+                name: "IX_DepartureSchedules_RouteId",
+                table: "DepartureSchedules",
                 column: "RouteId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Departures_TrainId",
-                table: "Departures",
+                name: "IX_DepartureSchedules_TrainId",
+                table: "DepartureSchedules",
                 column: "TrainId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_DepartureId",
+                name: "IX_Reservations_ArrivalStationRouteDetailId",
                 table: "Reservations",
-                column: "DepartureId");
+                column: "ArrivalStationRouteDetailId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_DailyDepartureId",
+                table: "Reservations",
+                column: "DailyDepartureId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_DepartureScheduleId",
+                table: "Reservations",
+                column: "DepartureScheduleId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reservations_DepartureStationRouteDetailId",
+                table: "Reservations",
+                column: "DepartureStationRouteDetailId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reservations_SeatId",
@@ -1451,9 +1488,6 @@ namespace TrainTicketing.Database.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
-                name: "DepartureDates");
-
-            migrationBuilder.DropTable(
                 name: "DepartureDetails");
 
             migrationBuilder.DropTable(
@@ -1466,19 +1500,22 @@ namespace TrainTicketing.Database.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "RouteDetails");
-
-            migrationBuilder.DropTable(
                 name: "Reservations");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");
 
             migrationBuilder.DropTable(
-                name: "Departures");
+                name: "DailyDepartures");
+
+            migrationBuilder.DropTable(
+                name: "RouteDetails");
 
             migrationBuilder.DropTable(
                 name: "Seats");
+
+            migrationBuilder.DropTable(
+                name: "DepartureSchedules");
 
             migrationBuilder.DropTable(
                 name: "Routes");

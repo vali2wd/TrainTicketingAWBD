@@ -47,7 +47,7 @@ public static class RoutesEndpoints
             var routeTotalDistance = route.TotalDistance;
 
             var departuresTimetable =
-                await dbContext.Departures
+                await dbContext.DepartureSchedules
                                     .AsNoTracking()
                                     .Where(r => r.RouteId == routeGuid)
                                     .Include(d => d.Train)

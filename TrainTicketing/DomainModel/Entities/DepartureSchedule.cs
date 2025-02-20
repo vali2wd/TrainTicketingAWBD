@@ -1,8 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using TrainTicketing.DomainModel.Kernel;
 
-namespace TrainTicketing.Entities;
-public class DepartureSchedule
+namespace TrainTicketing.DomainModel.Entities;
+public class DepartureSchedule : Entity
 {
     public int DepartureScheduleId { get; set; }
 
