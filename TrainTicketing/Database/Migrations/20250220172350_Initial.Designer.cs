@@ -12,8 +12,8 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    [Migration("20250220170737_RemoveVersionAtReservation")]
-    partial class RemoveVersionAtReservation
+    [Migration("20250220172350_Initial")]
+    partial class Initial
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -237,6 +237,15 @@ namespace TrainTicketing.Database.Migrations
                     b.Property<int>("DepartureScheduleId")
                         .HasColumnType("int");
 
+                    b.Property<DateTime?>("_modifyDate")
+                        .HasColumnType("datetime2")
+                        .HasColumnName("ModifyDate");
+
+                    b.Property<int>("_versionId")
+                        .IsConcurrencyToken()
+                        .HasColumnType("int")
+                        .HasColumnName("VersionId");
+
                     b.HasKey("DailyDepartureId");
 
                     b.HasIndex("DepartureScheduleId");
@@ -248,73 +257,85 @@ namespace TrainTicketing.Database.Migrations
                         {
                             DailyDepartureId = 1,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureScheduleId = 1,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 2,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureScheduleId = 2,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 3,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureScheduleId = 3,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 4,
                             DateOfDeparture = new DateTime(2025, 12, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureScheduleId = 4,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 5,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureScheduleId = 1,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 6,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureScheduleId = 2,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 7,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureScheduleId = 3,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 8,
                             DateOfDeparture = new DateTime(2025, 12, 2, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureScheduleId = 4,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 9,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 1
+                            DepartureScheduleId = 1,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 10,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 2
+                            DepartureScheduleId = 2,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 11,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 3
+                            DepartureScheduleId = 3,
+                            _versionId = 0
                         },
                         new
                         {
                             DailyDepartureId = 12,
                             DateOfDeparture = new DateTime(2025, 12, 3, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            DepartureScheduleId = 4
+                            DepartureScheduleId = 4,
+                            _versionId = 0
                         });
                 });
 
@@ -733,52 +754,6 @@ namespace TrainTicketing.Database.Migrations
                             RouteId = new Guid("3dba6d64-acae-4cee-acff-630ef2b81d2a"),
                             TrainId = new Guid("2d4cd1fb-5e08-457b-9966-d9e8e44bbc93")
                         });
-                });
-
-            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Reservation", b =>
-                {
-                    b.Property<int>("ReservationId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ReservationId"));
-
-                    b.Property<int?>("ArrivalStationRouteDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("DailyDepartureId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DepartureScheduleId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("DepartureStationRouteDetailId")
-                        .HasColumnType("int");
-
-                    b.Property<bool>("IsReserved")
-                        .HasColumnType("bit");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("ReservationId");
-
-                    b.HasIndex("ArrivalStationRouteDetailId");
-
-                    b.HasIndex("DailyDepartureId");
-
-                    b.HasIndex("DepartureScheduleId");
-
-                    b.HasIndex("DepartureStationRouteDetailId");
-
-                    b.HasIndex("SeatId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Reservations");
                 });
 
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
@@ -5419,29 +5394,6 @@ namespace TrainTicketing.Database.Migrations
                         });
                 });
 
-            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.SeatReservation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("ReservationId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("SeatId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ReservationId");
-
-                    b.HasIndex("SeatId");
-
-                    b.ToTable("SeatReservation");
-                });
-
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Station", b =>
                 {
                     b.Property<Guid>("StationId")
@@ -6186,7 +6138,82 @@ namespace TrainTicketing.Database.Migrations
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
+                    b.OwnsMany("TrainTicketing.DomainModel.Entities.Reservation", "_reservations", b1 =>
+                        {
+                            b1.Property<int>("ReservationId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int");
+
+                            SqlServerPropertyBuilderExtensions.UseIdentityColumn(b1.Property<int>("ReservationId"));
+
+                            b1.Property<int?>("ArrivalStationRouteDetailId")
+                                .HasColumnType("int");
+
+                            b1.Property<int>("DailyDepartureId")
+                                .HasColumnType("int");
+
+                            b1.Property<int?>("DepartureStationRouteDetailId")
+                                .HasColumnType("int");
+
+                            b1.Property<bool>("IsReserved")
+                                .HasColumnType("bit");
+
+                            b1.Property<int>("SeatId")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("UserId")
+                                .HasColumnType("nvarchar(450)");
+
+                            b1.HasKey("ReservationId");
+
+                            b1.HasIndex("ArrivalStationRouteDetailId");
+
+                            b1.HasIndex("DailyDepartureId");
+
+                            b1.HasIndex("DepartureStationRouteDetailId");
+
+                            b1.HasIndex("SeatId");
+
+                            b1.HasIndex("UserId");
+
+                            b1.ToTable("Reservations");
+
+                            b1.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "ArrivalStationRouteDetail")
+                                .WithMany()
+                                .HasForeignKey("ArrivalStationRouteDetailId")
+                                .OnDelete(DeleteBehavior.Restrict);
+
+                            b1.WithOwner()
+                                .HasForeignKey("DailyDepartureId");
+
+                            b1.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "DepartureStationRouteDetail")
+                                .WithMany()
+                                .HasForeignKey("DepartureStationRouteDetailId")
+                                .OnDelete(DeleteBehavior.Restrict);
+
+                            b1.HasOne("TrainTicketing.DomainModel.Entities.Seat", "Seat")
+                                .WithMany()
+                                .HasForeignKey("SeatId")
+                                .OnDelete(DeleteBehavior.Restrict)
+                                .IsRequired();
+
+                            b1.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
+                                .WithMany()
+                                .HasForeignKey("UserId")
+                                .OnDelete(DeleteBehavior.Restrict);
+
+                            b1.Navigation("ArrivalStationRouteDetail");
+
+                            b1.Navigation("DepartureStationRouteDetail");
+
+                            b1.Navigation("Seat");
+
+                            b1.Navigation("User");
+                        });
+
                     b.Navigation("DepartureSchedule");
+
+                    b.Navigation("_reservations");
                 });
 
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Announcement", b =>
@@ -6238,50 +6265,6 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("Train");
                 });
 
-            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Reservation", b =>
-                {
-                    b.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "ArrivalStationRouteDetail")
-                        .WithMany()
-                        .HasForeignKey("ArrivalStationRouteDetailId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TrainTicketing.DomainModel.Aggregates.DailyDeparture.DailyDepartures", "DailyDeparture")
-                        .WithMany()
-                        .HasForeignKey("DailyDepartureId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("TrainTicketing.DomainModel.Entities.DepartureSchedule", null)
-                        .WithMany("Reservations")
-                        .HasForeignKey("DepartureScheduleId");
-
-                    b.HasOne("TrainTicketing.DomainModel.Entities.RouteDetail", "DepartureStationRouteDetail")
-                        .WithMany()
-                        .HasForeignKey("DepartureStationRouteDetailId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.HasOne("TrainTicketing.DomainModel.Entities.Seat", "Seat")
-                        .WithMany()
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict);
-
-                    b.Navigation("ArrivalStationRouteDetail");
-
-                    b.Navigation("DailyDeparture");
-
-                    b.Navigation("DepartureStationRouteDetail");
-
-                    b.Navigation("Seat");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
                 {
                     b.HasOne("TrainTicketing.DomainModel.Entities.Station", "MainTerminal")
@@ -6331,25 +6314,6 @@ namespace TrainTicketing.Database.Migrations
                     b.Navigation("Train");
                 });
 
-            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.SeatReservation", b =>
-                {
-                    b.HasOne("TrainTicketing.DomainModel.Entities.Reservation", "Reservation")
-                        .WithMany()
-                        .HasForeignKey("ReservationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TrainTicketing.DomainModel.Entities.Seat", "Seat")
-                        .WithMany("SeatReservations")
-                        .HasForeignKey("SeatId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Reservation");
-
-                    b.Navigation("Seat");
-                });
-
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffRanges", b =>
                 {
                     b.HasOne("TrainTicketing.DomainModel.Entities.TariffSchema", "TariffSchema")
@@ -6364,8 +6328,6 @@ namespace TrainTicketing.Database.Migrations
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.DepartureSchedule", b =>
                 {
                     b.Navigation("DepartureDetails");
-
-                    b.Navigation("Reservations");
                 });
 
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Route", b =>
@@ -6378,11 +6340,6 @@ namespace TrainTicketing.Database.Migrations
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.RouteDetail", b =>
                 {
                     b.Navigation("DepatureDetails");
-                });
-
-            modelBuilder.Entity("TrainTicketing.DomainModel.Entities.Seat", b =>
-                {
-                    b.Navigation("SeatReservations");
                 });
 
             modelBuilder.Entity("TrainTicketing.DomainModel.Entities.TariffSchema", b =>

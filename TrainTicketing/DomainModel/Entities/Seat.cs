@@ -15,7 +15,6 @@ public class Seat : Entity
 
     public SeatClass SeatClass { get; set; }
 
-    public List<SeatReservation> SeatReservations { get; } = [];
 }
 
 public class SeatConfigurator : IEntityTypeConfiguration<Seat>

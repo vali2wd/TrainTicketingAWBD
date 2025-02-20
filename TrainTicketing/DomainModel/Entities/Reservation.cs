@@ -17,10 +17,10 @@ public class Reservation
 
     public Seat Seat { get; set; }
 
-    //TODO it should not be departure, but departure date
-    public int DailyDepartureId { get; set; }
+    ////TODO it should not be departure, but departure date
+    //public int DailyDepartureId { get; set; }
 
-    public DailyDepartures DailyDeparture { get; set; }
+    //public DailyDepartures DailyDeparture { get; set; }
 
     public int? DepartureStationRouteDetailId { get; set; }
 
@@ -32,36 +32,36 @@ public class Reservation
 }
 
 
-public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
-{
-    public void Configure(EntityTypeBuilder<Reservation> builder)
-    {
-        builder.HasKey(r => r.ReservationId);
-        builder.HasOne(r => r.User)
-            .WithMany()
-            .OnDelete(DeleteBehavior.Restrict);
+//public class ReservationsConfigurator : IEntityTypeConfiguration<Reservation>
+//{
+//    public void Configure(EntityTypeBuilder<Reservation> builder)
+//    {
+//        //builder.HasKey(r => r.ReservationId);
+//        //builder.HasOne(r => r.User)
+//        //    .WithMany()
+//        //    .OnDelete(DeleteBehavior.Restrict);
 
-        builder.Property(r => r.SeatId)
-            .IsRequired();
+//        //builder.Property(r => r.SeatId)
+//        //    .IsRequired();
 
-        builder.HasOne(r => r.DailyDeparture)
-            .WithMany()
-            .HasForeignKey(r => r.DailyDepartureId)
-            .OnDelete(DeleteBehavior.Restrict);
+//        ////builder.HasOne(r => r.DailyDeparture)
+//        ////    .WithMany()
+//        ////    .HasForeignKey(r => r.DailyDepartureId)
+//        ////    .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(r => r.Seat)
-            .WithMany()
-            .HasForeignKey(r => r.SeatId)
-            .OnDelete(DeleteBehavior.Restrict);
+//        //builder.HasOne(r => r.Seat)
+//        //    .WithMany()
+//        //    .HasForeignKey(r => r.SeatId)
+//        //    .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(r => r.DepartureStationRouteDetail)
-            .WithMany()
-            .HasForeignKey(r => r.DepartureStationRouteDetailId)
-            .OnDelete(DeleteBehavior.Restrict);
+//        //builder.HasOne(r => r.DepartureStationRouteDetail)
+//        //    .WithMany()
+//        //    .HasForeignKey(r => r.DepartureStationRouteDetailId)
+//        //    .OnDelete(DeleteBehavior.Restrict);
 
-        builder.HasOne(r => r.ArrivalStationRouteDetail)
-            .WithMany()
-            .HasForeignKey(r => r.ArrivalStationRouteDetailId)
-            .OnDelete(DeleteBehavior.Restrict);
-    }
-}
+//        //builder.HasOne(r => r.ArrivalStationRouteDetail)
+//        //    .WithMany()
+//        //    .HasForeignKey(r => r.ArrivalStationRouteDetailId)
+//        //    .OnDelete(DeleteBehavior.Restrict);
+//    }
+//}

@@ -13,9 +13,13 @@ public class DailyDepartures : AggregateRootBase
     public int DepartureScheduleId { get; set; }
 
     public DepartureSchedule DepartureSchedule { get; set; } = null!;
+
+    private List<Reservation> _reservations;
+
+    private DateTime? _modifyDate;
 }
 
-public class DepartureDatesConfigurator : IEntityTypeConfiguration<DailyDepartures>
+public sealed class DepartureDatesConfigurator : IEntityTypeConfiguration<DailyDepartures>
 {
     public void Configure(EntityTypeBuilder<DailyDepartures> builder)
     {
@@ -24,6 +28,37 @@ public class DepartureDatesConfigurator : IEntityTypeConfiguration<DailyDepartur
             .WithMany()
             .HasForeignKey(dd => dd.DepartureScheduleId)
             .OnDelete(DeleteBehavior.Restrict);
+
+        builder.Property("_modifyDate").HasColumnName("ModifyDate");
+        builder.Property("_versionId").HasColumnName("VersionId").IsConcurrencyToken();
+
+        builder.OwnsMany<Reservation>("_reservations", reservation =>
+        {
+            reservation.WithOwner().HasForeignKey("DailyDepartureId");
+            reservation.HasKey(r => r.ReservationId);
+            reservation.HasOne(r => r.User)
+                .WithMany()
+                .OnDelete(DeleteBehavior.Restrict);
+
+            reservation.Property(r => r.SeatId)
+                .IsRequired();
+
+            reservation.HasOne(r => r.Seat)
+                .WithMany()
+                .HasForeignKey(r => r.SeatId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            reservation.HasOne(r => r.DepartureStationRouteDetail)
+                .WithMany()
+                .HasForeignKey(r => r.DepartureStationRouteDetailId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            reservation.HasOne(r => r.ArrivalStationRouteDetail)
+                .WithMany()
+                .HasForeignKey(r => r.ArrivalStationRouteDetailId)
+                .OnDelete(DeleteBehavior.Restrict);
+        });
+
         builder.HasData(
             new DailyDepartures { DailyDepartureId = 1, DateOfDeparture = new DateTime(2025, 12, 1), DepartureScheduleId = 1 },
             new DailyDepartures { DailyDepartureId = 2, DateOfDeparture = new DateTime(2025, 12, 1), DepartureScheduleId = 2 },

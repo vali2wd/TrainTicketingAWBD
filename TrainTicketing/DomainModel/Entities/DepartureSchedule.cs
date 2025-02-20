@@ -13,7 +13,7 @@ public class DepartureSchedule : Entity
 
     public ICollection<DepartureDetail> DepartureDetails { get; set; }
 
-    public ICollection<Reservation> Reservations { get; set; }
+    //public ICollection<Reservation> Reservations { get; set; }
 
     public bool OutboundMain { get; set; }
 

@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-
-namespace TrainTicketing.DomainModel.Kernel
+﻿namespace TrainTicketing.DomainModel.Kernel
 {
     public abstract class Entity
     {
