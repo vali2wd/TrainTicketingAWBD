@@ -12,7 +12,7 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    [Migration("20250220165007_Initial")]
+    [Migration("20250220170323_Initial")]
     partial class Initial
     {
         /// <inheritdoc />

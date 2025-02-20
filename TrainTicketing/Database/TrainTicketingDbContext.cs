@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using Microsoft.Identity.Client;
 using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
 
