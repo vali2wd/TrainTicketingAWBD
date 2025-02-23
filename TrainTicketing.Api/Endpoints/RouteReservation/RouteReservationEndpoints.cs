@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
-using TrainTicketing.DomainModel.Entities;
 
 namespace TrainTicketing.Api.Endpoints.RouteReservation;
 
@@ -52,6 +51,11 @@ public static class RouteReservationEndpoints
             }
 
             var reservation = dailyDeparture.AddReservation(user, departureRouteDetail, arrivalRouteDetail);
+
+            if (reservation is null)
+            {
+                return Results.BadRequest("No available seats for reservation");
+            }
 
             var domainEvents = DomainEventsHelper.GetAllDomainEvents(dailyDeparture);
             if (domainEvents.Any())

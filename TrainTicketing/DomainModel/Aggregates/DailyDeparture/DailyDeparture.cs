@@ -54,15 +54,19 @@ public class DailyDeparture : AggregateRootBase
 
         var availableSeats = trainSeats.Except(seatsConflictingWithRequest).ToList();
 
-        var seatToReserve = availableSeats.First();
-        var reservationCreated = Reservation.CreateNew(user, seatToReserve, departureStationRouteDetail.Id, arrivalStationRouteDetail.Id);
-        _reservations.Add(reservationCreated);
+        if (availableSeats.Count != 0)
+        {
+            var seatToReserve = availableSeats.First();
+            var reservationCreated = Reservation.CreateNew(user, seatToReserve, departureStationRouteDetail.Id, arrivalStationRouteDetail.Id);
+            _reservations.Add(reservationCreated);
 
-        _modifyDate = DateTime.Now;
+            _modifyDate = DateTime.Now;
 
-        AddDomainEvent(new ReservationAddedEvent(this.DailyDepartureId));
+            AddDomainEvent(new ReservationAddedEvent(this.DailyDepartureId));
 
-        return reservationCreated;
+            return reservationCreated;
+        }
+        return null;
     }
 
 
