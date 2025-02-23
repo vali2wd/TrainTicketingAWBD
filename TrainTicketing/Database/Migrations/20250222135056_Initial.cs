@@ -393,7 +393,7 @@ namespace TrainTicketing.Database.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Reservations",
+                name: "Reservation",
                 columns: table => new
                 {
                     ReservationId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
@@ -405,33 +405,33 @@ namespace TrainTicketing.Database.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Reservations", x => x.ReservationId);
+                    table.PrimaryKey("PK_Reservation", x => x.ReservationId);
                     table.ForeignKey(
-                        name: "FK_Reservations_AspNetUsers_UserId",
+                        name: "FK_Reservation_AspNetUsers_UserId",
                         column: x => x.UserId,
                         principalTable: "AspNetUsers",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservations_DailyDepartures_DailyDepartureId",
+                        name: "FK_Reservation_DailyDepartures_DailyDepartureId",
                         column: x => x.DailyDepartureId,
                         principalTable: "DailyDepartures",
                         principalColumn: "DailyDepartureId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_Reservations_RouteDetails_ArrivalStationRouteDetailId",
+                        name: "FK_Reservation_RouteDetails_ArrivalStationRouteDetailId",
                         column: x => x.ArrivalStationRouteDetailId,
                         principalTable: "RouteDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservations_RouteDetails_DepartureStationRouteDetailId",
+                        name: "FK_Reservation_RouteDetails_DepartureStationRouteDetailId",
                         column: x => x.DepartureStationRouteDetailId,
                         principalTable: "RouteDetails",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Reservations_Seats_SeatId",
+                        name: "FK_Reservation_Seats_SeatId",
                         column: x => x.SeatId,
                         principalTable: "Seats",
                         principalColumn: "SeatId",
@@ -443,8 +443,8 @@ namespace TrainTicketing.Database.Migrations
                 columns: new[] { "Id", "ConcurrencyStamp", "Name", "NormalizedName" },
                 values: new object[,]
                 {
-                    { "b51b257d-c584-41c6-93c1-7fcee36a8aa0", null, "Client", "CLIENT" },
-                    { "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93", null, "Worker", "WORKER" }
+                    { "8a40f9a5-74e8-448a-8b4c-d20e77bb2f36", null, "Client", "CLIENT" },
+                    { "c3325e50-9ba5-4a3a-bd49-ef5d0c6f950b", null, "Worker", "WORKER" }
                 });
 
             migrationBuilder.InsertData(
@@ -452,8 +452,8 @@ namespace TrainTicketing.Database.Migrations
                 columns: new[] { "Id", "AccessFailedCount", "ConcurrencyStamp", "Email", "EmailConfirmed", "LockoutEnabled", "LockoutEnd", "NormalizedEmail", "NormalizedUserName", "PasswordHash", "PhoneNumber", "PhoneNumberConfirmed", "SecurityStamp", "TwoFactorEnabled", "UserName" },
                 values: new object[,]
                 {
-                    { "3a7bceef-390d-497b-a81f-b3719470daae", 0, "6b8f3668-3ace-49c4-ade0-d9dcf04c895e", "worker@email.ro", true, false, null, "WORKER@EMAIL.RO", "WORKER@EMAIL.RO", "AQAAAAIAAYagAAAAEGAGDN3fdXhAIWzUNs/XwyDDxxnWgdIzWoflRHFcvUvj8ykB4xDGJJ0CCzC7zLg9Iw==", null, false, "898b3e64-eda4-4bf2-b42a-0dddea441675", false, "worker@email.ro" },
-                    { "4affb04a-c718-4e07-8041-a55eb8b5defc", 0, "4c8ae971-209a-4910-a592-692205202486", "client@email.ro", true, false, null, "CLIENT@EMAIL.RO", "CLIENT@EMAIL.RO", "AQAAAAIAAYagAAAAELUk1M1fx9vuyJ3LdR1NkS1KhreqS2fvF63I4olQ4W9BUaEKFhTdA/T5KIdseALGZg==", null, false, "71bef33a-1dc1-4a7d-8d7d-9883a9a491d1", false, "client@email.ro" }
+                    { "2ea2314c-9bd4-4b84-8268-18f1f385fce8", 0, "962b3164-3217-4c14-9b0e-e5ce504bd899", "worker@email.ro", true, false, null, "WORKER@EMAIL.RO", "WORKER@EMAIL.RO", "AQAAAAIAAYagAAAAEOo6f/FKShbZ748/ZaaNh6FxNutKdfxH5PBq78QBldHn8ybRjqYV4mdRpdCbaDzwdg==", null, false, "a58c25bb-a788-4faf-aafa-c45580ce78d5", false, "worker@email.ro" },
+                    { "968a7dae-9e35-4ec1-a0c5-6dfb74bccefd", 0, "84ab08aa-4841-46b0-a752-df080e4c8b10", "client@email.ro", true, false, null, "CLIENT@EMAIL.RO", "CLIENT@EMAIL.RO", "AQAAAAIAAYagAAAAEFpm0GUH3BUzOfrzsx7WrKvx0YyLyROv3bcAHNLYDlSulQknNTYFfUO7hCbRLerrtQ==", null, false, "b4a324f5-b4a2-482a-8f46-6f0176920e0b", false, "client@email.ro" }
                 });
 
             migrationBuilder.InsertData(
@@ -521,8 +521,8 @@ namespace TrainTicketing.Database.Migrations
                 columns: new[] { "RoleId", "UserId" },
                 values: new object[,]
                 {
-                    { "c2d7e6b5-5143-4ca9-9ecf-26d9c7d25a93", "3a7bceef-390d-497b-a81f-b3719470daae" },
-                    { "b51b257d-c584-41c6-93c1-7fcee36a8aa0", "4affb04a-c718-4e07-8041-a55eb8b5defc" }
+                    { "c3325e50-9ba5-4a3a-bd49-ef5d0c6f950b", "2ea2314c-9bd4-4b84-8268-18f1f385fce8" },
+                    { "8a40f9a5-74e8-448a-8b4c-d20e77bb2f36", "968a7dae-9e35-4ec1-a0c5-6dfb74bccefd" }
                 });
 
             migrationBuilder.InsertData(
@@ -1390,28 +1390,28 @@ namespace TrainTicketing.Database.Migrations
                 column: "TrainId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_ArrivalStationRouteDetailId",
-                table: "Reservations",
+                name: "IX_Reservation_ArrivalStationRouteDetailId",
+                table: "Reservation",
                 column: "ArrivalStationRouteDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_DailyDepartureId",
-                table: "Reservations",
+                name: "IX_Reservation_DailyDepartureId",
+                table: "Reservation",
                 column: "DailyDepartureId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_DepartureStationRouteDetailId",
-                table: "Reservations",
+                name: "IX_Reservation_DepartureStationRouteDetailId",
+                table: "Reservation",
                 column: "DepartureStationRouteDetailId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_SeatId",
-                table: "Reservations",
+                name: "IX_Reservation_SeatId",
+                table: "Reservation",
                 column: "SeatId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Reservations_UserId",
-                table: "Reservations",
+                name: "IX_Reservation_UserId",
+                table: "Reservation",
                 column: "UserId");
 
             migrationBuilder.CreateIndex(
@@ -1470,7 +1470,7 @@ namespace TrainTicketing.Database.Migrations
                 name: "DepartureDetails");
 
             migrationBuilder.DropTable(
-                name: "Reservations");
+                name: "Reservation");
 
             migrationBuilder.DropTable(
                 name: "TariffRangess");

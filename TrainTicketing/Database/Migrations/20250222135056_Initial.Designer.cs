@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrainTicketing.Database;
 
@@ -11,9 +12,11 @@ using TrainTicketing.Database;
 namespace TrainTicketing.Database.Migrations
 {
     [DbContext(typeof(TrainTicketingDbContext))]
-    partial class TrainTicketingDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250222135056_Initial")]
+    partial class Initial
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -51,13 +54,13 @@ namespace TrainTicketing.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "d9a4c4f9-8621-4d86-867e-43969db6c4f0",
+                            Id = "c3325e50-9ba5-4a3a-bd49-ef5d0c6f950b",
                             Name = "Worker",
                             NormalizedName = "WORKER"
                         },
                         new
                         {
-                            Id = "42020344-0357-4eaa-957d-70a4d3ad7976",
+                            Id = "8a40f9a5-74e8-448a-8b4c-d20e77bb2f36",
                             Name = "Client",
                             NormalizedName = "CLIENT"
                         });
@@ -155,33 +158,33 @@ namespace TrainTicketing.Database.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "67c5bdec-8e8b-4f5a-a35d-e73dd7c19dc3",
+                            Id = "2ea2314c-9bd4-4b84-8268-18f1f385fce8",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "6437d547-7e77-46b8-ae4f-08f5f1600b9e",
+                            ConcurrencyStamp = "962b3164-3217-4c14-9b0e-e5ce504bd899",
                             Email = "worker@email.ro",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "WORKER@EMAIL.RO",
                             NormalizedUserName = "WORKER@EMAIL.RO",
-                            PasswordHash = "AQAAAAIAAYagAAAAEIXCQqbRIQwCCfbm7AL8xq04wTHlyYi/sMGKpNV2MU394RgPlyvSCngotMCk/dKHIA==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEOo6f/FKShbZ748/ZaaNh6FxNutKdfxH5PBq78QBldHn8ybRjqYV4mdRpdCbaDzwdg==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "3b9de005-8aec-4e8e-a891-957925b6c828",
+                            SecurityStamp = "a58c25bb-a788-4faf-aafa-c45580ce78d5",
                             TwoFactorEnabled = false,
                             UserName = "worker@email.ro"
                         },
                         new
                         {
-                            Id = "4c7a3dae-782a-43f0-86b5-c5d88cdbd728",
+                            Id = "968a7dae-9e35-4ec1-a0c5-6dfb74bccefd",
                             AccessFailedCount = 0,
-                            ConcurrencyStamp = "e9e9642d-58a1-4c98-8b8c-aeaf39cac838",
+                            ConcurrencyStamp = "84ab08aa-4841-46b0-a752-df080e4c8b10",
                             Email = "client@email.ro",
                             EmailConfirmed = true,
                             LockoutEnabled = false,
                             NormalizedEmail = "CLIENT@EMAIL.RO",
                             NormalizedUserName = "CLIENT@EMAIL.RO",
-                            PasswordHash = "AQAAAAIAAYagAAAAED+TYhnleEJsetUiqGgDRmbPbAUvx6x6Jko+BEImVI81+z6YTpe9amg5fR67aTzdvw==",
+                            PasswordHash = "AQAAAAIAAYagAAAAEFpm0GUH3BUzOfrzsx7WrKvx0YyLyROv3bcAHNLYDlSulQknNTYFfUO7hCbRLerrtQ==",
                             PhoneNumberConfirmed = false,
-                            SecurityStamp = "70c5a037-1766-454f-ae4f-83808aaac405",
+                            SecurityStamp = "b4a324f5-b4a2-482a-8f46-6f0176920e0b",
                             TwoFactorEnabled = false,
                             UserName = "client@email.ro"
                         });
@@ -251,13 +254,13 @@ namespace TrainTicketing.Database.Migrations
                     b.HasData(
                         new
                         {
-                            UserId = "67c5bdec-8e8b-4f5a-a35d-e73dd7c19dc3",
-                            RoleId = "d9a4c4f9-8621-4d86-867e-43969db6c4f0"
+                            UserId = "2ea2314c-9bd4-4b84-8268-18f1f385fce8",
+                            RoleId = "c3325e50-9ba5-4a3a-bd49-ef5d0c6f950b"
                         },
                         new
                         {
-                            UserId = "4c7a3dae-782a-43f0-86b5-c5d88cdbd728",
-                            RoleId = "42020344-0357-4eaa-957d-70a4d3ad7976"
+                            UserId = "968a7dae-9e35-4ec1-a0c5-6dfb74bccefd",
+                            RoleId = "8a40f9a5-74e8-448a-8b4c-d20e77bb2f36"
                         });
                 });
 

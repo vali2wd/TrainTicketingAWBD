@@ -1,0 +1,5 @@
+﻿@TrainTicketing.Api_HostAddress = https://localhost:7231
+
+POST {{TrainTicketing.Api_HostAddress}}/reserve-seat
+
+###

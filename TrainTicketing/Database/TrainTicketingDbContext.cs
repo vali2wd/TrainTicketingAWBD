@@ -17,7 +17,7 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Announcement> Announcements { get; set; }
 
-    public DbSet<Reservation> Reservations { get; set; }
+    //public DbSet<Reservation> Reservations { get; set; }
 
     //public DbSet<ReservationsArchive> ReservationsArchive { get; set; }
 
@@ -39,7 +39,7 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<DepartureSchedule> DepartureSchedules { get; set; }
 
-    public DbSet<DailyDepartures> DailyDepartures { get; set; }
+    public DbSet<DailyDeparture> DailyDepartures { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -47,10 +47,10 @@ public class TrainTicketingDbContext : IdentityDbContext<IdentityUser>
 
         modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
 
-        SeedUsersRoles seedUsersRoles = new();
-        modelBuilder.Entity<IdentityRole>().HasData(seedUsersRoles.Roles);
-        modelBuilder.Entity<IdentityUser>().HasData(seedUsersRoles.Users);
-        modelBuilder.Entity<IdentityUserRole<string>>().HasData(seedUsersRoles.UserRoles);
+        //SeedUsersRoles seedUsersRoles = new();
+        //modelBuilder.Entity<IdentityRole>().HasData(seedUsersRoles.Roles);
+        //modelBuilder.Entity<IdentityUser>().HasData(seedUsersRoles.Users);
+        //modelBuilder.Entity<IdentityUserRole<string>>().HasData(seedUsersRoles.UserRoles);
     }
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
