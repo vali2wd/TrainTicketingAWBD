@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
+using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
+using TrainTicketing.DomainModel.Entities;
 
 namespace TrainTicketing.Api.Endpoints.RouteReservation;
 
@@ -10,8 +12,6 @@ public static class RouteReservationEndpoints
 {
     public static void AddRouteReservationEndpoints(this IEndpointRouteBuilder app)
     {
-        //TODO add params as request class
-        //TODO verifica sa fie de ruta acele detailii, sanitizare tot input
         app.MapPost("/reserve-seat", 
             async(SeatReservationRequest seatReservationRequest,
                   TrainTicketingDbContext dbContext,
@@ -51,7 +51,7 @@ public static class RouteReservationEndpoints
                 return Results.NotFound("Arrival route detail not found");
             }
 
-            dailyDeparture.AddReservation(user, departureRouteDetail, arrivalRouteDetail);
+            var reservation = dailyDeparture.AddReservation(user, departureRouteDetail, arrivalRouteDetail);
 
             var domainEvents = DomainEventsHelper.GetAllDomainEvents(dailyDeparture);
             if (domainEvents.Any())
@@ -68,8 +68,89 @@ public static class RouteReservationEndpoints
                 return Results.Conflict($"Error occurred on seat reservation. Try reserving again!\n{ce.Message}");
             }
 
-            return Results.Created();
+            // Fix
+            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservation.ReservationId});
         }).RequireAuthorization("ClientPolicy");
+
+        //users seat reservations
+        app.MapGet("seat-reservations", async (
+                  UserManager<IdentityUser> userManager,
+                  HttpContext httpContext,
+                  TrainTicketingDbContext dbContext,
+                  CancellationToken ctx) =>
+        {
+            var user = await userManager.GetUserAsync(httpContext.User);
+            if (user == null)
+            {
+                return Results.Unauthorized();
+            }
+            // Auto-included seat, arrival, departure.
+            var now = DateTime.Now;
+            var reservations = (await dbContext.DailyDepartures
+                                        .Where(dd => dd.DateOfDeparture >= now - TimeSpan.FromDays(90)).ToListAsync())
+                                        .SelectMany(dd => dd.Reservations)
+                                        .Where(r => r.User!.Id == user.Id)
+                                        .ToList();
+
+            var stations = await dbContext.Stations.ToListAsync();
+
+            var reservationsResponse = reservations.Select(r => new ReservationDto(
+                r.ReservationId,
+                r.Seat!.SeatCode,
+                stations.FirstOrDefault(s => s.StationId == r.DepartureStationRouteDetail!.Station!.StationId)!.StationName,
+                stations.FirstOrDefault(s => s.StationId == r.ArrivalStationRouteDetail!.Station!.StationId)!.StationName))
+            .ToList();
+            
+            return Results.Ok(reservationsResponse);
+        }).RequireAuthorization("ClientPolicy"); ;
+
+        app.MapGet("seat-reservation", async(
+                  Guid reservationId,
+                  TrainTicketingDbContext dbContext,
+                  UserManager<IdentityUser> userManager,
+                  HttpContext httpContext,
+                  ILogger<Program> _logger,
+                  CancellationToken ctx) =>
+        {
+            var user = await userManager.GetUserAsync(httpContext.User);
+            if (user == null)
+            {
+                return Results.Unauthorized();
+            }
+            var now = DateTime.Now;
+            // Could paginate the reservations
+            var reservationById = (await dbContext.DailyDepartures.Where(dd => dd.DateOfDeparture >= now - TimeSpan.FromDays(90)).ToListAsync())
+                                        .SelectMany(dd => dd.Reservations)
+                                        .First(r => r.ReservationId == reservationId);
+
+            if (reservationById is null)
+            {
+                return Results.NotFound("Reservation not found");
+            }
+            if (reservationById.User!.Id != user.Id)
+            {
+                return Results.Forbid();
+            }
+
+            var seatCode = reservationById.Seat!.SeatCode;
+
+
+            var departureStationName = (await dbContext.Stations
+                                                .FirstOrDefaultAsync(s => s.StationId == reservationById.DepartureStationRouteDetail!.StationId))!
+                                        .StationName;
+            var arrivalStationName = (await dbContext.Stations
+                                    .FirstOrDefaultAsync(s => s.StationId == reservationById.DepartureStationRouteDetail!.StationId))!
+                            .StationName;
+
+            var reservationResponse = new ReservationDto(
+                reservationById.ReservationId,
+                seatCode,
+                departureStationName,
+                arrivalStationName);
+            
+            return Results.Ok(reservationResponse);
+        }).RequireAuthorization("ClientPolicy")
+        .WithName("GetSeatReservationById");
     }
 }
 

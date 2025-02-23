@@ -12,11 +12,6 @@ public class Reservation
 
     public Seat? Seat { get; set; }
 
-    ////TODO it should not be departure, but departure date
-    //public int DailyDepartureId { get; set; }
-
-    //public DailyDepartures DailyDeparture { get; set; }
-
     public int? DepartureStationRouteDetailId { get; set; }
 
     public RouteDetail? DepartureStationRouteDetail { get; set; }

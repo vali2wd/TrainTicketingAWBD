@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System.Diagnostics;
+using System.ComponentModel.DataAnnotations.Schema;
 using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.DomainModel.Kernel;
 
@@ -12,6 +12,9 @@ public class DailyDeparture : AggregateRootBase
     private List<Reservation> _reservations;
 
     private DateTime? _modifyDate;
+
+    [NotMapped]
+    public IReadOnlyList<Reservation> Reservations => _reservations;
 
     public int DailyDepartureId { get; set; }
 
@@ -35,7 +38,7 @@ public class DailyDeparture : AggregateRootBase
         _reservations = new List<Reservation>();
     }
 
-    public void AddReservation(
+    public Reservation AddReservation(
         IdentityUser? user,
         RouteDetail departureStationRouteDetail,
         RouteDetail arrivalStationRouteDetail)
@@ -52,12 +55,14 @@ public class DailyDeparture : AggregateRootBase
         var availableSeats = trainSeats.Except(seatsConflictingWithRequest).ToList();
 
         var seatToReserve = availableSeats.First();
-
-        _reservations.Add(Reservation.CreateNew(user, seatToReserve, departureStationRouteDetail.Id, arrivalStationRouteDetail.Id));
+        var reservationCreated = Reservation.CreateNew(user, seatToReserve, departureStationRouteDetail.Id, arrivalStationRouteDetail.Id);
+        _reservations.Add(reservationCreated);
 
         _modifyDate = DateTime.Now;
 
         AddDomainEvent(new ReservationAddedEvent(this.DailyDepartureId));
+
+        return reservationCreated;
     }
 
 
