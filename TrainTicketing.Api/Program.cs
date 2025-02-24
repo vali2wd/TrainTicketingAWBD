@@ -7,6 +7,7 @@ using TrainTicketing.Api.Endpoints.RouteReservation;
 using TrainTicketing.Api.Endpoints.Routes;
 using TrainTicketing.Api.Endpoints.Stations;
 using TrainTicketing.Api.HostedServices;
+using TrainTicketing.Api.LifeTimes;
 using TrainTicketing.Database;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -32,6 +33,8 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("ClientPolicy", policy =>
         policy.RequireRole("Client"));
 });
+
+builder.Services.AddAppServices();
 
 builder.Services
     .AddEndpointsApiExplorer();

@@ -38,7 +38,14 @@ public class DailyDeparture : AggregateRootBase
         _reservations = new List<Reservation>();
     }
 
-    public Reservation AddReservation(
+    /// <summary>
+    /// Creates a reservation and adds it to the tracked list of reservations.
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="departureStationRouteDetail"></param>
+    /// <param name="arrivalStationRouteDetail"></param>
+    /// <returns>The reservation created; null if no reservation can be created.</returns>
+    public Reservation CreateReservation(
         IdentityUser? user,
         RouteDetail departureStationRouteDetail,
         RouteDetail arrivalStationRouteDetail)
@@ -66,6 +73,7 @@ public class DailyDeparture : AggregateRootBase
 
             return reservationCreated;
         }
+
         return null;
     }
 

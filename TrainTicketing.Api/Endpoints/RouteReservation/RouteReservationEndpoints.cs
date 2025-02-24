@@ -1,22 +1,68 @@
-﻿using DDD.EF.OptimisticConcurrency.Infrastructure;
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
+using TrainTicketing.Services.SeatReservation;
 
 namespace TrainTicketing.Api.Endpoints.RouteReservation;
+//var dailyDeparture = await dbContext.DailyDepartures
+//                                        .Where(dd => dd.DailyDepartureId == seatReservationRequest.DailyDepartureId)
+//                                        .Include(dd => dd.DepartureSchedule)
+//                                            .ThenInclude(ds => ds.Train)
+//                                                .ThenInclude(t => t.Seats)
+//                                         .Include(dd => dd.DepartureSchedule)
+//                                            .ThenInclude(ds => ds.DepartureDetails)
+//                                        .AsSplitQuery()
+//                                        .FirstAsync();
+//if (dailyDeparture is null)
+//{
+//    return Results.NotFound("Daily departure not found");
+//}
 
+//var departureRouteDetail = await dbContext.RouteDetails.FirstOrDefaultAsync(rd => rd.Id == seatReservationRequest.DepartureRouteDetailId, ctx);
+//var arrivalRouteDetail = await dbContext.RouteDetails.FirstOrDefaultAsync(rd => rd.Id == seatReservationRequest.ArrivalRouteDetailId, ctx);
+//if (departureRouteDetail is null)
+//{
+//    return Results.NotFound("Departure route detail not found");
+//}
+//if (arrivalRouteDetail is null)
+//{
+//    return Results.NotFound("Arrival route detail not found");
+//}
+
+//var reservation = dailyDeparture.CreateReservation(user, departureRouteDetail, arrivalRouteDetail);
+
+//if (reservation is null)
+//{
+//    return Results.BadRequest("No available seats for reservation");
+//}
+
+//var domainEvents = DomainEventsHelper.GetAllDomainEvents(dailyDeparture);
+//if (domainEvents.Any())
+//{
+//    dailyDeparture.IncreaseVersion();
+//}
+
+//try
+//{
+//    await dbContext.SaveChangesAsync(ctx);
+//}
+//catch (DbUpdateConcurrencyException ce)
+//{
+//    return Results.Conflict($"Error occurred on seat reservation. Try reserving again!\n{ce.Message}");
+//}
+
+// Fix
 public static class RouteReservationEndpoints
 {
     public static void AddRouteReservationEndpoints(this IEndpointRouteBuilder app)
     {
         app.MapPost("/reserve-seat", 
             async(SeatReservationRequest seatReservationRequest,
-                  TrainTicketingDbContext dbContext,
+                  ISeatReservationService seatReservationService,
                   UserManager<IdentityUser> userManager,
                   HttpContext httpContext,
-                  ILogger<Program> _logger,
                   CancellationToken ctx) =>
         {
             var user = await userManager.GetUserAsync(httpContext.User);
@@ -25,58 +71,16 @@ public static class RouteReservationEndpoints
                 return Results.Unauthorized();
             }
 
-            var dailyDeparture = await dbContext.DailyDepartures
-                                                    .Where(dd => dd.DailyDepartureId == seatReservationRequest.DailyDepartureId)
-                                                    .Include(dd => dd.DepartureSchedule)
-                                                        .ThenInclude(ds => ds.Train)
-                                                            .ThenInclude(t => t.Seats)
-                                                     .Include(dd => dd.DepartureSchedule)
-                                                        .ThenInclude(ds => ds.DepartureDetails)
-                                                    .AsSplitQuery()
-                                                    .FirstAsync();
-            if (dailyDeparture is null)
+            var reservationResult = await seatReservationService.ReserveSeat(seatReservationRequest, user, ctx);
+
+            if (reservationResult.IsFailure)
             {
-                return Results.NotFound("Daily departure not found");
+                return Results.BadRequest(reservationResult.Error);
             }
 
-            var departureRouteDetail = await dbContext.RouteDetails.FirstOrDefaultAsync(rd => rd.Id == seatReservationRequest.DepartureRouteDetailId, ctx);
-            var arrivalRouteDetail = await dbContext.RouteDetails.FirstOrDefaultAsync(rd => rd.Id == seatReservationRequest.ArrivalRouteDetailId, ctx);
-            if (departureRouteDetail is null)
-            {
-                return Results.NotFound("Departure route detail not found");
-            }
-            if (arrivalRouteDetail is null)
-            {
-                return Results.NotFound("Arrival route detail not found");
-            }
-
-            var reservation = dailyDeparture.AddReservation(user, departureRouteDetail, arrivalRouteDetail);
-
-            if (reservation is null)
-            {
-                return Results.BadRequest("No available seats for reservation");
-            }
-
-            var domainEvents = DomainEventsHelper.GetAllDomainEvents(dailyDeparture);
-            if (domainEvents.Any())
-            {
-                dailyDeparture.IncreaseVersion();
-            }
-
-            try
-            {
-                await dbContext.SaveChangesAsync(ctx);
-            }
-            catch (DbUpdateConcurrencyException ce)
-            {
-                return Results.Conflict($"Error occurred on seat reservation. Try reserving again!\n{ce.Message}");
-            }
-
-            // Fix
-            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservation.ReservationId});
+            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId});
         }).RequireAuthorization("ClientPolicy");
 
-        //users seat reservations
         app.MapGet("seat-reservations", async (
                   UserManager<IdentityUser> userManager,
                   HttpContext httpContext,
@@ -88,6 +92,7 @@ public static class RouteReservationEndpoints
             {
                 return Results.Unauthorized();
             }
+
             // Auto-included seat, arrival, departure.
             var now = DateTime.Now;
             var reservations = (await dbContext.DailyDepartures
@@ -121,30 +126,28 @@ public static class RouteReservationEndpoints
             {
                 return Results.Unauthorized();
             }
+
             var now = DateTime.Now;
-            // Could paginate the reservations
             var reservationById = (await dbContext.DailyDepartures.Where(dd => dd.DateOfDeparture >= now - TimeSpan.FromDays(90)).ToListAsync())
                                         .SelectMany(dd => dd.Reservations)
-                                        .First(r => r.ReservationId == reservationId);
-
+                                        .FirstOrDefault(r => r.ReservationId == reservationId);
             if (reservationById is null)
             {
                 return Results.NotFound("Reservation not found");
             }
-            if (reservationById.User!.Id != user.Id)
-            {
-                return Results.Forbid();
-            }
-
-            var seatCode = reservationById.Seat!.SeatCode;
-
 
             var departureStationName = (await dbContext.Stations
                                                 .FirstOrDefaultAsync(s => s.StationId == reservationById.DepartureStationRouteDetail!.StationId))!
                                         .StationName;
             var arrivalStationName = (await dbContext.Stations
-                                    .FirstOrDefaultAsync(s => s.StationId == reservationById.DepartureStationRouteDetail!.StationId))!
+                                    .FirstOrDefaultAsync(s => s.StationId == reservationById.ArrivalStationRouteDetail!.StationId))!
                             .StationName;
+            var seatCode = reservationById.Seat!.SeatCode;
+
+            if (reservationById.User!.Id != user.Id)
+            {
+                return Results.Forbid();
+            }
 
             var reservationResponse = new ReservationDto(
                 reservationById.ReservationId,
