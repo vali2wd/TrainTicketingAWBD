@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
 
@@ -32,7 +31,7 @@ public static class RoutesEndpoints
                 .Where(r => r.RouteId == routeGuid)
                 .Include(r => r.MainTerminal)
                 .FirstOrDefaultAsync();
-            
+
             if (route is null)
             {
                 return Results.NotFound();
@@ -53,10 +52,10 @@ public static class RoutesEndpoints
                                     .Include(d => d.Train)
                                     .Include(d => d.DepartureDetails)
                                         .ThenInclude(dd => dd.RouteDetail)
-                                    .Select(d => new RouteDepartureAndTimesDto( d.OutboundMain, d.Train.TrainName, d.DepartureDetails.Select(dd => dd.DepatureTime).ToList()))
+                                    .Select(d => new RouteDepartureAndTimesDto(d.OutboundMain, d.Train.TrainName, d.DepartureDetails.Select(dd => dd.DepatureTime).ToList()))
                                     .ToListAsync();
 
-            foreach(var departureTimetable in departuresTimetable)
+            foreach (var departureTimetable in departuresTimetable)
             {
                 departureTimetable.DepartureTimes.OrderBy(dt => dt * (departureTimetable.OutbountMain == true ? 1 : -1));
             }

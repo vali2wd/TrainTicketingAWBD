@@ -19,7 +19,7 @@ public class Reservation
     public int? ArrivalStationRouteDetailId { get; set; }
 
     public RouteDetail? ArrivalStationRouteDetail { get; set; }
-    
+
     private Reservation(IdentityUser? user, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
     {
         this.ReservationId = Guid.NewGuid();
@@ -32,7 +32,7 @@ public class Reservation
     /// <summary>
     /// EF Core constructor - NEVER USE
     /// </summary>
-    private Reservation() {  }
+    private Reservation() { }
 
     internal static Reservation CreateNew(IdentityUser? User, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
     {

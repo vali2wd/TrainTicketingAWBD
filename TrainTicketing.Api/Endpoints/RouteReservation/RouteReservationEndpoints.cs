@@ -58,8 +58,8 @@ public static class RouteReservationEndpoints
 {
     public static void AddRouteReservationEndpoints(this IEndpointRouteBuilder app)
     {
-        app.MapPost("/reserve-seat", 
-            async(SeatReservationRequest seatReservationRequest,
+        app.MapPost("/reserve-seat",
+            async (SeatReservationRequest seatReservationRequest,
                   ISeatReservationService seatReservationService,
                   UserManager<IdentityUser> userManager,
                   HttpContext httpContext,
@@ -78,7 +78,7 @@ public static class RouteReservationEndpoints
                 return Results.BadRequest(reservationResult.Error);
             }
 
-            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId});
+            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId });
         }).RequireAuthorization("ClientPolicy");
 
         app.MapGet("seat-reservations", async (
@@ -109,11 +109,11 @@ public static class RouteReservationEndpoints
                 stations.FirstOrDefault(s => s.StationId == r.DepartureStationRouteDetail!.Station!.StationId)!.StationName,
                 stations.FirstOrDefault(s => s.StationId == r.ArrivalStationRouteDetail!.Station!.StationId)!.StationName))
             .ToList();
-            
+
             return Results.Ok(reservationsResponse);
         }).RequireAuthorization("ClientPolicy"); ;
 
-        app.MapGet("seat-reservation", async(
+        app.MapGet("seat-reservation", async (
                   Guid reservationId,
                   TrainTicketingDbContext dbContext,
                   UserManager<IdentityUser> userManager,
@@ -154,7 +154,7 @@ public static class RouteReservationEndpoints
                 seatCode,
                 departureStationName,
                 arrivalStationName);
-            
+
             return Results.Ok(reservationResponse);
         }).RequireAuthorization("ClientPolicy")
         .WithName("GetSeatReservationById");

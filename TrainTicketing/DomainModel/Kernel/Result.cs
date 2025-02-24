@@ -15,7 +15,7 @@ public class Result<T>
         Error = error;
     }
 
-    private Result(bool isSuccess,T data, Error error)
+    private Result(bool isSuccess, T data, Error error)
     {
         if (isSuccess && error != Error.None ||
             !isSuccess && error == Error.None)

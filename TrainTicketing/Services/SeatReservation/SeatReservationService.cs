@@ -1,5 +1,4 @@
 ﻿using DDD.EF.OptimisticConcurrency.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;

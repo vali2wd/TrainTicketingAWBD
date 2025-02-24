@@ -22,7 +22,7 @@ public static class RouteAvailabilityEndpoints
                 return Results.BadRequest(aex.Message);
             }
 
-            if(!Guid.TryParse(departureStation, out var departureStationId))
+            if (!Guid.TryParse(departureStation, out var departureStationId))
             {
                 return Results.BadRequest("Invalid start station id");
             }
@@ -62,7 +62,7 @@ public static class RouteAvailabilityEndpoints
             // Filter the routes available by the outbound main rule : if the departure station is before the arrival station in the route details, then it is outbound main.
             // This is to get the routes that are going from the departure station to the arrival station.
             var routesAvailableFilteredByOutbound = routesAvailable
-                .Where(ra => ra.DepartureSchedule.OutboundMain == 
+                .Where(ra => ra.DepartureSchedule.OutboundMain ==
                             (ra.DepartureSchedule.Route.RouteDetails.First(rd => rd.StationId == departureStationId).OrderOfStationFromMain <
                              ra.DepartureSchedule.Route.RouteDetails.First(rd => rd.StationId == arrivalStationId).OrderOfStationFromMain))
                 .ToList();

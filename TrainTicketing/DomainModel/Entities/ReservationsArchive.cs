@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore;
 using TrainTicketing.DomainModel.Kernel;
 
 namespace TrainTicketing.DomainModel.Entities;

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TrainTicketing.DomainModel.Kernel
+﻿namespace TrainTicketing.DomainModel.Kernel
 {
     public interface IDomainEvent
     {
