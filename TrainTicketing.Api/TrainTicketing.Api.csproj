@@ -20,8 +20,4 @@
     <ProjectReference Include="..\TrainTicketing\TrainTicketing.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="LifeTimes\" />
-  </ItemGroup>
-
 </Project>

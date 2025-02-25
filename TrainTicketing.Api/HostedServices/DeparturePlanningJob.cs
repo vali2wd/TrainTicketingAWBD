@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrainTicketing.Database;
-using TrainTicketing.Entities;
+using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
 
 namespace TrainTicketing.Api.HostedServices;
 
@@ -16,10 +16,9 @@ public class DeparturePlanningJob : BackgroundService
         this._logger = _logger;
     }
 
-    // should be logging here!!
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromSeconds(15));
+        using PeriodicTimer timer = new PeriodicTimer(TimeSpan.FromHours(24));
         _logger.LogInformation("Departure Planning Job is starting with time period of {0}", timer.Period);
         while (!stoppingToken.IsCancellationRequested && await timer.WaitForNextTickAsync(stoppingToken))
         {
@@ -28,12 +27,13 @@ public class DeparturePlanningJob : BackgroundService
     }
 
     public async Task AddAllDepartures(int daysFromToday, CancellationToken cancellationToken)
-    {   
+    {
         using var scope = this.Services.CreateScope();
 
         var dbContext = scope.ServiceProvider.GetRequiredService<TrainTicketingDbContext>();
 
-        var departureIds = await dbContext.Departures.Select(d => d.DepartureId).ToListAsync();
+        var trains = await dbContext.Trains.Include(t => t.Seats).AsNoTracking().ToListAsync();
+        var departureIds = await dbContext.DepartureSchedules.AsNoTracking().Select(d => d.DepartureScheduleId).ToListAsync();
 
         var futureDate = DateTime.UtcNow.AddDays(daysFromToday);
 
@@ -41,15 +41,15 @@ public class DeparturePlanningJob : BackgroundService
 
         foreach (var departureId in departureIds)
         {
-            dbContext.DepartureDates.Add(new DepartureDates
+            dbContext.DailyDepartures.Add(new DailyDeparture
             {
                 DateOfDeparture = futureDate,
-                DepartureId = departureId
+                DepartureScheduleId = departureId
             });
         }
         try
         {
-            //await dbContext.SaveChangesAsync(cancellationToken);
+            await dbContext.SaveChangesAsync(cancellationToken);
             _logger.LogInformation("Successfully added {0} departures with date {1}", departureIds.Count, futureDate);
         }
         catch (OperationCanceledException oce)
