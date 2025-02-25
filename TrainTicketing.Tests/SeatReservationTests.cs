@@ -1,12 +1,11 @@
-﻿using Moq;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Logging;
-using TrainTicketing.Services.SeatReservation;
-using WMS.Tests.Fakes;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging.Abstractions;
+using Moq;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.Errors;
+using TrainTicketing.Services.SeatReservation;
+using WMS.Tests.Fakes;
 
 public class SeatReservationServiceTests
 {

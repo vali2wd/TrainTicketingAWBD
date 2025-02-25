@@ -1,8 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using TrainTicketing.Database;
-using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
-using TrainTicketing.DomainModel.Entities;
 
 namespace WMS.Tests.Fakes;
 
@@ -65,7 +62,7 @@ public class TrainTicketingContextFake : TrainTicketingDbContext
         ////      One Reservation Seat 1 A to C
         //modelBuilder.Entity<DailyDeparture>().HasData(
         //   new DailyDeparture { DailyDepartureId = 1, DateOfDeparture = new DateTime(2025, 12, 1), DepartureScheduleId = 1 });
-        
+
     }
 }
 
