@@ -71,7 +71,7 @@ public static class RouteReservationEndpoints
                 return Results.Unauthorized();
             }
 
-            var reservationResult = await seatReservationService.ReserveSeat(seatReservationRequest, user, ctx);
+            var reservationResult = await seatReservationService.ReserveSeatAsync(seatReservationRequest, user, ctx);
 
             if (reservationResult.IsFailure)
             {

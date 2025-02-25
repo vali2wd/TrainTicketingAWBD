@@ -12,7 +12,7 @@ namespace TrainTicketing.Services.SeatReservation;
 
 public interface ISeatReservationService
 {
-    Task<Result<Reservation>> ReserveSeat(SeatReservationRequest seatReservationRequest, IdentityUser user, CancellationToken ctx);
+    Task<Result<Reservation>> ReserveSeatAsync(SeatReservationRequest seatReservationRequest, IdentityUser user, CancellationToken ctx);
 }
 
 public class SeatReservationService : ISeatReservationService
@@ -30,7 +30,7 @@ public class SeatReservationService : ISeatReservationService
         _logger = logger;
     }
 
-    public async Task<Result<Reservation>> ReserveSeat(SeatReservationRequest seatReservationRequest, IdentityUser user, CancellationToken ctx)
+    public async Task<Result<Reservation>> ReserveSeatAsync(SeatReservationRequest seatReservationRequest, IdentityUser user, CancellationToken ctx)
     {
         var dailyDeparture = await dbContext.DailyDepartures
                                                 .Where(dd => dd.DailyDepartureId == seatReservationRequest.DailyDepartureId)

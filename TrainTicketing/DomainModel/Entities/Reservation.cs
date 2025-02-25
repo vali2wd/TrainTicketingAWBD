@@ -34,7 +34,7 @@ public class Reservation
     /// </summary>
     private Reservation() { }
 
-    internal static Reservation CreateNew(IdentityUser? User, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
+    public static Reservation CreateNew(IdentityUser? User, int seatId, int? departureStationRouteDetailId, int? arrivalStationRouteDetailId)
     {
         return new Reservation(User, seatId, departureStationRouteDetailId, arrivalStationRouteDetailId);
     }
