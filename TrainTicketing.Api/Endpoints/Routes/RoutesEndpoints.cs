@@ -64,5 +64,40 @@ public static class RoutesEndpoints
 
             return Results.Ok(routeTimetable);
         });
+
+        //get tariffschema for route
+        app.MapGet("/route/{routeId}/tariff", async (string routeId, TrainTicketingDbContext dbContext) =>
+        {
+            if (!Guid.TryParse(routeId, out Guid routeGuid))
+            {
+                return Results.BadRequest("Invalid route id");
+            };
+
+            var route = await dbContext.Routes
+                .AsNoTracking()
+                .Where(r => r.RouteId == routeGuid)
+                .Include(r => r.TariffSchema)
+                    .ThenInclude(ts => ts.TariffRanges)
+                .FirstOrDefaultAsync();
+            if (route is null)
+            {
+                return Results.NotFound();
+            }
+
+            var tariffRanges = route.TariffSchema.TariffRanges
+                                        .OrderBy(tr => tr.SeatClass)
+                                        .ThenBy(tr => tr.StartKm)
+                                        .ToList();
+
+            return Results.Ok(
+                tariffRanges.Select(tr => new
+                {
+                    tr.StartKm,
+                    tr.EndKm,
+                    tr.PricePerKm,
+                    tr.SeatClass
+                })
+               );
+        });
     }
 }
