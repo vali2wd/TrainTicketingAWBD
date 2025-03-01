@@ -1,0 +1,62 @@
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px;
+  background-color: #b10d09;
+  height: 30px;
+  color: white;
+  margin: 0;  
+}
+
+.topbar * {
+  color: white;
+}
+
+.dispatcher-container {
+  display: flex;
+  align-items: center; /* Ensures everything aligns properly */
+  justify-content: flex-end;
+  width: 30vw;
+  min-width: 315px;
+  gap: 10px; /* Replaces padding-left for spacing */
+}
+
+.dispatcher-container ng-icon {
+  display: inline-flex;
+  align-items: center;
+  vertical-align: middle;
+  font-size: 1.2em; /* Adjust icon size */
+}
+
+.dispatcher-container a {
+  text-decoration: none;
+  color: white;
+  font-weight: bold;
+}
+
+.socials-container {
+  display: flex;
+  align-items: center;
+  justify-content: start;
+  width: 30vw;
+  max-width: 315px;
+  margin-left: 30px;
+  gap: 15px; /* Replaces padding-right for spacing */
+}
+
+.socials-container a {
+  display: flex;
+  align-items: center;
+}
+
+.socials-container ng-icon {
+  display: inline-flex;
+  font-size: 1.5em; /* Ensures social icons are slightly larger */
+  transition: transform 0.2s ease-in-out;
+}
+
+.socials-container a:hover ng-icon {
+  transform: scale(1.1); /* Subtle hover effect */
+}
+
