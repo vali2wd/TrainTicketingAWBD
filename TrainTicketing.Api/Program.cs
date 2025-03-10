@@ -88,4 +88,12 @@ app.AddDepartureEndpoints();
 app.AddRouteReservationEndpoints();
 app.MapControllers();
 
+//CORS for SPA development - Angular
+app.UseCors(builder =>
+{
+    builder.WithOrigins("http://localhost:4200")
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+});
+
 app.Run();

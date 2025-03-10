@@ -39,7 +39,6 @@ public class StationConfigurator : IEntityTypeConfiguration<Station>
             new Station { StationId = Guid.Parse("dbf75826-aa0d-4431-a0b4-ff1228a0a886"), StationName = "Buzau" },
             new Station { StationId = Guid.Parse("2086698a-e330-439b-ab3d-4dea78c7e688"), StationName = "Faurei" },
             new Station { StationId = Guid.Parse("89825248-a590-4dbb-913a-fc37567c2765"), StationName = "Tandarei" },
-            new Station { StationId = Guid.Parse("bd245552-935b-40a6-bf09-bdba25d09443"), StationName = "Fetesti" },
             new Station { StationId = Guid.Parse("4806be82-6db7-421c-89b5-d92861bb3fbc"), StationName = "Medgidia" },
             new Station { StationId = Guid.Parse("2d1f9718-ce63-4fc9-be0f-fa1d236d5b19"), StationName = "Constanta" },
             new Station { StationId = Guid.Parse("03905450-41ef-4639-9713-ba663c3773da"), StationName = "Eforie Nord" },
