@@ -27,9 +27,19 @@ builder.Services
     .AddRoles<IdentityRole>()
     .AddEntityFrameworkStores<TrainTicketingDbContext>();
 
-builder.Services
-    .AddDbContext<TrainTicketingDbContext>(options =>
-        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+if (builder.Environment.IsEnvironment("Test"))
+{
+    builder.Services.AddDbContext<TrainTicketingDbContext>(options =>
+    //TODO: fix this import, configure the in memory database
+    //Unde am ramas ieri: am configurat appsettings.test.json, am adaugat la launchsettings.json doua profile. am pus treaba asta de aici sa foloseasca inmemory db si nu apucasem sa rulez. Referinta este ultimul chat cu gemini pin, si ssms, unde am duplicat baza cu `Test sufixat`.
+        options.UseInMemoryDatabase("TestDb"));
+}
+else
+{
+    builder.Services
+        .AddDbContext<TrainTicketingDbContext>(options =>
+            options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+}
 
 builder.Services.AddAuthorization(options =>
 {
