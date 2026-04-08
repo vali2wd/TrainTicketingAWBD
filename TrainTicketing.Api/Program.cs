@@ -30,9 +30,7 @@ builder.Services
 if (builder.Environment.IsEnvironment("Test"))
 {
     builder.Services.AddDbContext<TrainTicketingDbContext>(options =>
-    //TODO: fix this import, configure the in memory database
-    //Unde am ramas ieri: am configurat appsettings.test.json, am adaugat la launchsettings.json doua profile. am pus treaba asta de aici sa foloseasca inmemory db si nu apucasem sa rulez. Referinta este ultimul chat cu gemini pin, si ssms, unde am duplicat baza cu `Test sufixat`.
-        options.UseInMemoryDatabase("TestDb"));
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 }
 else
 {
@@ -79,12 +77,15 @@ builder.Services.AddSerilog();
 
 var app = builder.Build();
 
+Console.WriteLine($"*** RUNNING IN ENVIRONMENT: {app.Environment.EnvironmentName} ***");
+Console.WriteLine($"*** DB CONNECTION: {app.Configuration.GetConnectionString("DefaultConnection")} ***");
+
 app.UseSerilogRequestLogging();
 
 app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 
 // Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
 {
     app.MapOpenApi();
     app.UseSwagger();
