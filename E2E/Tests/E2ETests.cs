@@ -35,6 +35,25 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
         });
     }
 
+    ///route/{routeId}/tariff", async (string routeId, TrainTicketingDbContext dbContext)
+    [Fact]
+    public async Task GetRoute_ReturnsNotFound_WhenRouteNotExist()
+    {
+        // Arrange.
+        var client = _factory.CreateClient();
+        using var scope = _factory.Services.CreateScope();
+        var db = scope.ServiceProvider.GetRequiredService<TrainTicketingDbContext>();
+        var fakeRouteId = Guid.NewGuid();
+        
+        // Act
+        var url = $"route/{fakeRouteId}/tariff";
+        var response = await client.GetAsync(url);
+
+        // Assert
+        Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
+    }
+
+
     [Fact]
     public async Task GetDepartures_ReturnsCorrectRoutes_WhenDataExists()
     {
