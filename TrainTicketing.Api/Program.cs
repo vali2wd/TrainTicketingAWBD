@@ -128,3 +128,5 @@ app.UseCors(builder =>
 });
 
 app.Run();
+
+public partial class Program { }

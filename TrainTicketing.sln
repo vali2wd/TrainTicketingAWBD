@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 17
-VisualStudioVersion = 17.12.35527.113
+# Visual Studio Version 18
+VisualStudioVersion = 18.4.11626.88 stable
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Api", "TrainTicketing.Api\TrainTicketing.Api.csproj", "{CDDB30B2-2D66-4121-B891-1AD12999233E}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Contracts", "TrainTicketing.Contracts\TrainTicketing.Contracts.csproj", "{EFCFE1E9-6CB6-497F-B147-0267547BA261}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TrainTicketing.Tests", "TrainTicketing.Tests\TrainTicketing.Tests.csproj", "{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "E2E", "E2E\E2E.csproj", "{CCC6555F-FF7A-46FA-AD8D-F6AB75D9AC4B}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F77CAEEB-AE2E-4527-A7F4-C6FBABD8DA16}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CCC6555F-FF7A-46FA-AD8D-F6AB75D9AC4B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CCC6555F-FF7A-46FA-AD8D-F6AB75D9AC4B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CCC6555F-FF7A-46FA-AD8D-F6AB75D9AC4B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CCC6555F-FF7A-46FA-AD8D-F6AB75D9AC4B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {03557189-9A3C-4327-8267-78FA28B0B6C7}
 	EndGlobalSection
 EndGlobal
