@@ -27,7 +27,6 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
                     {
                         policy.AddAuthenticationSchemes("TestScheme"); // Force policy to check our fake scheme
                         policy.RequireAuthenticatedUser();
-                        // If the real policy requires a role, add it here too
                         policy.RequireRole("Client");
                     });
                 });
@@ -35,7 +34,6 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
         });
     }
 
-    ///route/{routeId}/tariff", async (string routeId, TrainTicketingDbContext dbContext)
     [Fact]
     public async Task GetRoute_ReturnsNotFound_WhenRouteNotExist()
     {
@@ -44,7 +42,7 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
         using var scope = _factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<TrainTicketingDbContext>();
         var fakeRouteId = Guid.NewGuid();
-        
+
         // Act
         var url = $"route/{fakeRouteId}/tariff";
         var response = await client.GetAsync(url);
@@ -52,7 +50,6 @@ public class E2ETests : IClassFixture<WebApplicationFactory<Program>>
         // Assert
         Assert.Equal(HttpStatusCode.NotFound, response.StatusCode);
     }
-
 
     [Fact]
     public async Task GetDepartures_ReturnsCorrectRoutes_WhenDataExists()
