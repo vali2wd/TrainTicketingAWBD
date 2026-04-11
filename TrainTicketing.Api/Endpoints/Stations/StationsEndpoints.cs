@@ -15,7 +15,7 @@ public static class StationsEndpoints
             return Results.Ok(stations);
         });
 
-        app.MapGet("/stationsPg", async (
+        app.MapGet("/stations-pg", async (
             TrainTicketingDbContext dbContext,
             CancellationToken ctx,
             [AsParameters] QueryParameters queryParameters) =>

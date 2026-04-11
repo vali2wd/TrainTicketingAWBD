@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
+using TrainTicketing.DomainModel.Entities;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace TrainTicketing.Api.Endpoints.Routes;
 
@@ -19,12 +21,38 @@ public static class RoutesEndpoints
             return Results.Ok(routes);
         });
 
+        app.MapGet("/routes-pg", async (TrainTicketingDbContext dbContext, [AsParameters] QueryParameters queryParameters) =>
+        {
+            var routesQuery = dbContext.Routes.AsQueryable();
+
+            // A is Name, B is Total Distance
+
+            routesQuery = (queryParameters.SortByA, queryParameters.SortByB) switch
+            {
+                (true, _) => routesQuery.OrderBy(r => r.RouteName),           // Name is Asc
+                (false, _) => routesQuery.OrderByDescending(r => r.RouteName), // Name is Desc
+                (null, true) => routesQuery.OrderBy(r => r.TotalDistance),      // Name is null, Total Distance is Asc
+                (null, false) => routesQuery.OrderByDescending(r => r.TotalDistance), // Name is null, Total Distance is Desc
+                _ => routesQuery.OrderBy(r => r.RouteId)              // Default stable sort
+            };
+
+            var routes = await routesQuery
+                            .AsNoTracking()
+                            .Select(r => new RouteWithNameAndImageDto(r.RouteId, r.RouteName, r.ImagePath))
+                            .ToListAsync();
+            PaginationResponse<dynamic> response = new(routes, routes.Count(), queryParameters.PageNumber, queryParameters.PageSize);
+
+            return Results.Ok(response);
+        });
+
+
         app.MapGet("/route/{routeId}", async (string routeId, TrainTicketingDbContext dbContext) =>
         {
             if (!Guid.TryParse(routeId, out Guid routeGuid))
             {
                 return Results.BadRequest("Invalid route id");
-            };
+            }
+            ;
 
             var route = await dbContext.Routes
                 .AsNoTracking()
@@ -71,7 +99,8 @@ public static class RoutesEndpoints
             if (!Guid.TryParse(routeId, out Guid routeGuid))
             {
                 return Results.BadRequest("Invalid route id");
-            };
+            }
+            ;
 
             var route = await dbContext.Routes
                 .AsNoTracking()
