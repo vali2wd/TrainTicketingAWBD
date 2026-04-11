@@ -9,7 +9,7 @@ public static class RouteAvailabilityEndpoints
     public static void AddDepartureEndpoints(this IEndpointRouteBuilder app)
     {
         //TODO : functionality where stations are on different routes and have common node so API will respond with change train at common node
-        app.MapGet("/departures", async (string departureStation, string arrivalStation, DateTime date, TrainTicketingDbContext dbContext, CancellationToken ctx) =>
+        app.MapGet("/departures", async (string departureStation, string arrivalStation, DateTime date, TrainTicketingDbContext dbContext, ILogger<Program> _logger, CancellationToken ctx) =>
         {
             try
             {
@@ -66,6 +66,7 @@ public static class RouteAvailabilityEndpoints
                             (ra.DepartureSchedule.Route.RouteDetails.First(rd => rd.StationId == departureStationId).OrderOfStationFromMain <
                              ra.DepartureSchedule.Route.RouteDetails.First(rd => rd.StationId == arrivalStationId).OrderOfStationFromMain))
                 .ToList();
+            _logger.LogDebug(routesAvailableFilteredByOutbound.ToString());
 
             // need to return the departureDateId.
             var responseOfRoutes = routesAvailableFilteredByOutbound

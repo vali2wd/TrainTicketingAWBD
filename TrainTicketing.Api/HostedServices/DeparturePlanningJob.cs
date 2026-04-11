@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Data.Common;
 using TrainTicketing.Database;
 using TrainTicketing.DomainModel.Aggregates.DailyDeparture;
 
@@ -55,6 +56,10 @@ public class DeparturePlanningJob : BackgroundService
         catch (OperationCanceledException oce)
         {
             _logger.LogInformation("Could not seed {0} departures with date {1}. {2}", departureIds.Count, futureDate, oce.Message);
+        }
+        catch(DbException dbe)
+        {
+            _logger.LogError(dbe.Message, dbe);
         }
     }
     public override async Task StopAsync(CancellationToken stoppingToken)

@@ -65,11 +65,17 @@ builder.Services
     .AddHostedService<DeparturePlanningJob>();
 
 Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
     .MinimumLevel.Verbose()
     .MinimumLevel.Override("Microsoft.AspNetCore", LogEventLevel.Warning)
     .MinimumLevel.Override("Microsoft.Extensions.Hosting", LogEventLevel.Information)
     .MinimumLevel.Override("Microsoft.Hosting", LogEventLevel.Information)
+    // Sink 1
+    .WriteTo.Console()
+    // Sink 2: Errors
+    .WriteTo.File("logs/errors-.txt",
+        rollingInterval: RollingInterval.Day,
+        restrictedToMinimumLevel: LogEventLevel.Error,
+        outputTemplate: "{Timestamp:yyyy-MM-dd HH:mm:ss.fff zzz} [{Level:u3}] {Message:lj}{NewLine}{Exception}")
     .CreateLogger();
 
 builder.Services.AddSerilog();

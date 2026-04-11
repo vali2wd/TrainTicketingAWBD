@@ -61,6 +61,7 @@ public class SeatReservationService : ISeatReservationService
 
         if (reservation is null)
         {
+            _logger.LogInformation($"Full train reservation.");
             return Result<Reservation>.Failure(ReservationErrors.NoSeatsLeft);
         }
         var domainEvents = DomainEventsHelper.GetAllDomainEvents(dailyDeparture);
