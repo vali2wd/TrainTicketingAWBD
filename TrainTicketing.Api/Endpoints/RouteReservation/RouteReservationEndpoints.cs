@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TrainTicketing.Contracts.DataTransfer;
 using TrainTicketing.Database;
+using TrainTicketing.DomainModel.Entities;
 using TrainTicketing.Services.SeatReservation;
 
 namespace TrainTicketing.Api.Endpoints.RouteReservation;
@@ -82,6 +83,7 @@ public static class RouteReservationEndpoints
                 }
 
                 SendReservationEmail(httpClientFactory, _logger, user, reservationResult);
+                GatherTicketingDataForBI(httpClientFactory, reservationResult);
 
                 return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId });
             }).RequireAuthorization("ClientPolicy");
@@ -163,6 +165,22 @@ public static class RouteReservationEndpoints
             return Results.Ok(reservationResponse);
         }).RequireAuthorization("ClientPolicy")
         .WithName("GetSeatReservationById");
+    }
+
+    private static async void GatherTicketingDataForBI(IHttpClientFactory httpClientFactory, Result<Reservation> reservationResult)
+    {
+        var reportingClient = httpClientFactory.CreateClient("ReportingClient");
+
+        var reportData = new ReservationReportDto(
+            reservationResult.Data.ReservationId,
+            45.50m,     // Your tariff logic
+            DateTime.Now,
+            reservationResult.Data.DepartureStationRouteDetailId,
+            reservationResult.Data.ArrivalStationRouteDetailId
+        );
+
+        // Pushing to the reporting microservice
+        await reportingClient.PostAsJsonAsync("/reports/collect", reportData);
     }
 
     private static async void SendReservationEmail(IHttpClientFactory httpClientFactory, ILogger<Program> _logger, IdentityUser user, Result<DomainModel.Entities.Reservation> reservationResult)

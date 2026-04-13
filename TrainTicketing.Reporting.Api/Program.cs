@@ -9,7 +9,7 @@ List<ReservationReportDto> _reportStore = new();
 app.MapPost("/reports/collect", (ReservationReportDto report) =>
 {
     _reportStore.Add(report);
-    Console.WriteLine($">>> [REPORTING] Logged reservation for {report.TrainName}. Total logs: {_reportStore.Count}");
+    Console.WriteLine($">>> [REPORTING] Logged reservation for {report.ReservationId}. Total logs: {_reportStore.Count}");
     return Results.Accepted();
 });
 
@@ -21,7 +21,7 @@ app.MapGet("/reports/stats", () =>
         TotalTicketsSold = _reportStore.Count,
         TotalRevenue = _reportStore.Sum(r => r.Price),
         PopularStations = _reportStore
-            .GroupBy(r => r.DepartureStation)
+            .GroupBy(r => r.DepartureStationDetailId)
             .Select(g => new { Station = g.Key, Count = g.Count() })
             .OrderByDescending(x => x.Count)
     };
