@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
 using TrainTicketing.Contracts.DataTransfer;
@@ -61,25 +62,29 @@ public static class RouteReservationEndpoints
         app.MapPost("/reserve-seat",
             async (SeatReservationRequest seatReservationRequest,
                   ISeatReservationService seatReservationService,
+                  IHttpClientFactory httpClientFactory,
                   UserManager<IdentityUser> userManager,
                   HttpContext httpContext,
+                  ILogger<Program> _logger,
                   CancellationToken ctx) =>
-        {
-            var user = await userManager.GetUserAsync(httpContext.User);
-            if (user == null)
             {
-                return Results.Unauthorized();
-            }
+                var user = await userManager.GetUserAsync(httpContext.User);
+                if (user == null)
+                {
+                    return Results.Unauthorized();
+                }
 
-            var reservationResult = await seatReservationService.ReserveSeatAsync(seatReservationRequest, user, ctx);
+                var reservationResult = await seatReservationService.ReserveSeatAsync(seatReservationRequest, user, ctx);
 
-            if (reservationResult.IsFailure)
-            {
-                return Results.BadRequest(reservationResult.Error);
-            }
+                if (reservationResult.IsFailure)
+                {
+                    return Results.BadRequest(reservationResult.Error);
+                }
 
-            return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId });
-        }).RequireAuthorization("ClientPolicy");
+                SendReservationEmail(httpClientFactory, _logger, user, reservationResult);
+
+                return Results.CreatedAtRoute("GetSeatReservationById", new { reservationId = reservationResult.Data.ReservationId });
+            }).RequireAuthorization("ClientPolicy");
 
         app.MapGet("seat-reservations", async (
                   UserManager<IdentityUser> userManager,
@@ -158,6 +163,26 @@ public static class RouteReservationEndpoints
             return Results.Ok(reservationResponse);
         }).RequireAuthorization("ClientPolicy")
         .WithName("GetSeatReservationById");
+    }
+
+    private static async void SendReservationEmail(IHttpClientFactory httpClientFactory, ILogger<Program> _logger, IdentityUser user, Result<DomainModel.Entities.Reservation> reservationResult)
+    {
+        try
+        {
+            var client = httpClientFactory.CreateClient("NotificationClient");
+
+            var emailRequest = new SendEmailRequest(
+                user.Email!,
+                "Train Ticket Confirmed",
+                $"Hello {user.UserName}, your seat {reservationResult.Data.SeatId} is reserved!",
+                reservationResult.Data.ReservationId
+            );
+            await client.PostAsJsonAsync("/emails/send", emailRequest);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogWarning("Could not send notification: {Message}", ex.Message);
+        }
     }
 }
 
