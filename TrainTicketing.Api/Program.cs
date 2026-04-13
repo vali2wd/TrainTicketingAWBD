@@ -53,6 +53,10 @@ builder.Services.AddHttpClient("NotificationClient", client =>
 {
     client.BaseAddress = new Uri("http://localhost:5127");
 });
+builder.Services.AddHttpClient("ReportingClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5024");
+});
 
 builder.Services
     .AddEndpointsApiExplorer();
