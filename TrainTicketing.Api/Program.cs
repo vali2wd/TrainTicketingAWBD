@@ -49,6 +49,11 @@ builder.Services.AddAuthorization(options =>
 
 builder.Services.AddAppServices();
 
+builder.Services.AddHttpClient("NotificationClient", client =>
+{
+    client.BaseAddress = new Uri("http://localhost:5127");
+});
+
 builder.Services
     .AddEndpointsApiExplorer();
 builder.Services
