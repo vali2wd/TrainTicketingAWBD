@@ -43,6 +43,8 @@ builder.Services.AddAuthorization(options =>
 {
     options.AddPolicy("ClientPolicy", policy =>
         policy.RequireRole("Client"));
+    options.AddPolicy("WorkerPolicy", policy =>
+        policy.RequireRole("Worker"));
 });
 
 builder.Services.AddAppServices();

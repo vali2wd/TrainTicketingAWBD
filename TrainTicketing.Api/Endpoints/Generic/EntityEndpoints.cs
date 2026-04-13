@@ -23,7 +23,8 @@ public static class EntityEndpoints
             db.Set<T>().Add(entity);
             await db.SaveChangesAsync();
             return Results.Created(); // Note: Simplified for the example
-        });
+        }).RequireAuthorization("WorkerPolicy")
+        .WithName($"PostObservation{typeof(T)}");
 
         group.MapDelete("/{id}", async (TContext db, int id) =>
         {
@@ -33,6 +34,7 @@ public static class EntityEndpoints
             db.Set<T>().Remove(entity);
             await db.SaveChangesAsync();
             return Results.NoContent();
-        });
+        }).RequireAuthorization("WorkerPolicy")
+        .WithName($"DeleteById{typeof(T)}"); ;
     }
 }
