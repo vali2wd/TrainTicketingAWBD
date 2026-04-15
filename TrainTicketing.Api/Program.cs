@@ -93,7 +93,7 @@ builder.Services.AddSerilog();
 
 
 var app = builder.Build();
-//app.UsePathBase("/api/ticketing");
+app.UsePathBase("/api/ticketing");
 app.UseForwardedHeaders();
 
 Console.WriteLine($"*** RUNNING IN ENVIRONMENT: {app.Environment.EnvironmentName} ***");
