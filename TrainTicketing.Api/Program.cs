@@ -93,6 +93,8 @@ builder.Services.AddSerilog();
 
 
 var app = builder.Build();
+//app.UsePathBase("/api/ticketing");
+app.UseForwardedHeaders();
 
 Console.WriteLine($"*** RUNNING IN ENVIRONMENT: {app.Environment.EnvironmentName} ***");
 Console.WriteLine($"*** DB CONNECTION: {app.Configuration.GetConnectionString("DefaultConnection")} ***");
@@ -105,12 +107,33 @@ app.MapGroup("/identity").MapIdentityApi<IdentityUser>();
 if (app.Environment.IsDevelopment() || app.Environment.IsEnvironment("Test"))
 {
     app.MapOpenApi();
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseSwagger(options =>
+    {
+        options.PreSerializeFilters.Add((swaggerDoc, httpReq) =>
+        {
+            // If the request came through the Gateway, it will have this header
+            if (httpReq.Headers.TryGetValue("X-Forwarded-Prefix", out var prefix))
+            {
+                // This tells Swagger: "All your 'Try it out' requests must start with this prefix"
+                swaggerDoc.Servers = new List<Microsoft.OpenApi.Models.OpenApiServer>
+            {
+                new() { Url = prefix }
+            };
+            }
+        });
+    });
+    app.UseSwaggerUI(options =>
+    {
+        // This is the magic line. 
+        // It tells Swagger UI to look for the JSON file relative to the current path.
+        options.SwaggerEndpoint("/api/ticketing/swagger/v1/swagger.json", "Business API V1");
+
+        // This makes sure the 'base path' in the browser stays correct
+        options.RoutePrefix = "swagger";
+    });
 }
 
-app.UseHttpsRedirection();
-
+//app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 // Endpoints
