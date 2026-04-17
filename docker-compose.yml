@@ -1,0 +1,27 @@
+services:
+  trainticketing.api:
+    image: ${DOCKER_REGISTRY-}trainticketingapi
+    build:
+      context: .
+      dockerfile: TrainTicketing.Api/Dockerfile
+
+  gateway:
+    image: ${DOCKER_REGISTRY-}gateway
+    build:
+      context: .
+      dockerfile: Gateway/Dockerfile
+
+
+  trainticketing.notification.api:
+    image: ${DOCKER_REGISTRY-}trainticketingnotificationapi
+    build:
+      context: .
+      dockerfile: TrainTicketing.Notification.Api/Dockerfile
+
+
+  trainticketing.reporting.api:
+    image: ${DOCKER_REGISTRY-}trainticketingreportingapi
+    build:
+      context: .
+      dockerfile: TrainTicketing.Reporting.Api/Dockerfile
+

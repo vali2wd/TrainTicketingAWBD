@@ -1,0 +1,14 @@
+{
+  "profiles": {
+    "Docker Compose": {
+      "commandName": "DockerCompose",
+      "commandVersion": "1.0",
+      "serviceActions": {
+        "trainticketing.api": "StartDebugging",
+        "gateway": "StartDebugging",
+        "trainticketing.notification.api": "StartDebugging",
+        "trainticketing.reporting.api": "StartDebugging"
+      }
+    }
+  }
+}
