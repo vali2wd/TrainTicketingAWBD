@@ -23,6 +23,6 @@ jobs:
     - name: Restore dependencies
       run: dotnet restore TrainTicketing.sln
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build TrainTicketing.sln --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal --filter "FullyQualifiedName!~E2E"
