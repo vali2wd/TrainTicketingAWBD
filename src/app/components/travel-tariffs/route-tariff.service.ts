@@ -13,7 +13,7 @@ export class RouteTariffService {
   // TODO
   async getTariff(routeId: string | null): Promise<any> {
     try {
-      return await firstValueFrom(this.http.get<any>(environment.apiUrl + 'tariffs'));
+      return await firstValueFrom(this.http.get<any>(environment.apiUrl + 'ticketing/tariffs'));
     } catch (error) {
       console.error('Failed to fetch tariffs', error);
       throw error;

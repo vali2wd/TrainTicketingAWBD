@@ -12,7 +12,7 @@ export class TravelRoutesService {
 
   public async getRoutes(): Promise<IRoute[]> {
     try {
-      return await firstValueFrom(this.http.get<IRoute[]>(environment.apiUrl + 'routes'));
+      return await firstValueFrom(this.http.get<IRoute[]>(environment.apiUrl + 'ticketing/routes'));
     } catch (error) {
       console.error('Failed to fetch routes', error);
       throw error;

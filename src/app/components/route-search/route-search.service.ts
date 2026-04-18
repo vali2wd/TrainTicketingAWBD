@@ -17,7 +17,7 @@ export class RouteSearchService {
   async getStations(): Promise<IStation[]> {
     if (!this.areStationsLoaded){
       try{
-        this.stations = await firstValueFrom(this.http.get<IStation[]>(environment.apiUrl + 'stations'));
+        this.stations = await firstValueFrom(this.http.get<IStation[]>(environment.apiUrl + 'ticketing/stations'));
         this.areStationsLoaded = true;
       } catch (error) {
         console.error('Failed to fetch stations', error);
