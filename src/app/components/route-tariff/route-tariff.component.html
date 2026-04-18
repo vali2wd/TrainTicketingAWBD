@@ -1,0 +1,27 @@
+<div class="tarrifs-container">
+        @if (routeTariff == null) {
+                <h1>There was an error at route tariff loading. Please reload the page.</h1>
+        }
+        @else {
+                <table mat-table [dataSource]="routeTariff" class="mat-elevation-z8">
+                        <ng-container matColumnDef="startKm">
+                                <th mat-header-cell *matHeaderCellDef>Range Start(km)</th>
+                                <td mat-cell *matCellDef="let element">{{element.startKm }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="endKm">
+                                <th mat-header-cell *matHeaderCellDef>Range End(km)</th>
+                                <td mat-cell *matCellDef="let element">{{element.endKm}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="pricePerKm">
+                                <th mat-header-cell *matHeaderCellDef>Price per kilometer</th>
+                                <td mat-cell *matCellDef="let element">{{element.pricePerKm | currency:'RON'}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="seatClass">
+                                <th mat-header-cell *matHeaderCellDef>Seat Class</th>
+                                <td mat-cell *matCellDef="let element">{{element.seatClass}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+        }
+</div>

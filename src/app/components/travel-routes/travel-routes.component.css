@@ -1,0 +1,30 @@
+.grid-container {
+        display: grid;
+        grid-template-columns: repeat(3, 2fr); /* Creates 3 equal columns */
+        gap: 20px; /* Optional: adds spacing between items */
+      }
+.routes-container{
+        padding-top: 20px;
+        width: auto;
+        height: 100%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+}
+
+
+
+@media screen and ( max-width: 994px) and (min-width: 665px)
+{
+        .grid-container {
+                grid-template-columns: repeat(2, 2fr); /* Creates 2 equal columns */
+        }
+}
+
+@media screen and (max-width: 664px) 
+{
+        .grid-container {
+                display: grid;
+                grid-template-columns: 1fr; /* Creates 1 column */
+        }
+}

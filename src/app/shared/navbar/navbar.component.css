@@ -1,0 +1,53 @@
+.navbar {
+  max-height: 200px;
+  width: 100%;
+  background-color: #fff;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 20px;
+  box-sizing: border-box
+}
+.wrapper-side-navbar{
+  display: none;
+}
+
+.wrapper-logo-buttons {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  gap: 20px; /* Adjust spacing between logo and buttons */
+}
+
+.nav-buttons {
+  list-style: none;
+  display: flex;
+  gap: 30px; /* Adjust spacing between nav items */
+  margin-left: auto; /* Pushes the nav buttons to the right */
+  align-items: center;
+}
+
+.nav-buttons li {
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.button-content {
+  display: flex;
+  align-items: center; /* This ensures vertical alignment */
+  justify-content: center;
+}
+
+@media screen and (max-width: 785px) {
+  .nav-buttons{
+    display: none;
+  }
+  
+  .button-content{
+    justify-content: start;
+  }
+  .wrapper-side-navbar{
+    display: block;
+  }
+}

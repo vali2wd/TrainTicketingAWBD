@@ -60,3 +60,10 @@
   transform: scale(1.1); /* Subtle hover effect */
 }
 
+@media screen and (max-width: 1220px) {
+  .socials-container {
+    justify-content: end;
+    padding-right: 30px;
+  }
+  
+}

@@ -1,0 +1,13 @@
+.tarrifs-container{
+        display: flex;
+        padding-left: 30vw;
+        padding-right: 30vw;
+        width: auto;
+        height: auto;
+        justify-content: center;
+        align-items: center;
+}
+table {
+        width: auto;
+        height: 300px;
+      }

@@ -1,0 +1,42 @@
+<div class="route-search">
+        <mat-card>
+                <mat-card-header>
+                        <mat-card-title>Unde calatorim azi?</mat-card-title>
+                </mat-card-header>
+                <form class="train-route-picker" (ngSubmit)="onSubmit()">
+                        <mat-form-field>
+                                <mat-label>Plecare</mat-label>
+                                <mat-icon matSuffix>arrow_downward</mat-icon>
+                                <input type="text" placeholder="Plecare" aria-label="Plecare" matInput
+                                        [formControl]="departureControl" [matAutocomplete]="departureAuto" />
+                                <mat-autocomplete autoActiveFirstOption  #departureAuto="matAutocomplete" [displayWith]="displayStationName">
+                                        @for (option of filteredDepartureOptions; track option) {
+                                        <mat-option [value]="option">{{ option.stationName }}</mat-option>
+                                        }
+                                </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <mat-label>Destinatie</mat-label>
+                                <mat-icon matSuffix>pin_drop</mat-icon>
+                                <input type="text" placeholder="Destinate" aria-label="Destinatie" matInput
+                                        [formControl]="arrivalControl" [matAutocomplete]="destinationAuto" />
+                                <mat-autocomplete autoActiveFirstOption #destinationAuto="matAutocomplete" [displayWith]="displayStationName">
+                                        @for (option of filteredArrivalOptions; track option) {
+                                        <mat-option [value]="option">{{ option.stationName }}</mat-option>
+                                        }
+                                </mat-autocomplete>
+                        </mat-form-field>
+                        <mat-form-field>
+                                <mat-label>Choose a date</mat-label>
+                                <input matInput [matDatepicker]="picker" [min]="todayDate" [max]="maxDate">
+                                <mat-hint>MM/DD/YYYY</mat-hint>
+                                <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                        <div class="button-container">
+                                <button mat-raised-button>Cauta legatura</button>
+                        </div>
+                </form>
+        </mat-card>
+        <!-- <img src="assets\train-3775782_1920.jpg" alt="Red train in the green mountains" class="full-width-image" /> -->
+</div>

@@ -1,0 +1,90 @@
+<nav class="navbar">
+  <div class="wrapper-logo-buttons">
+    <img
+      src="assets/tfc-04.png"
+      alt="TFC Company Logo"
+      width="90"
+      height="80"
+    />
+
+    <ul class="nav-buttons">
+      <li>
+        <a mat-button [routerLink]="['/']">
+          <span class="button-content">
+            <ng-icon name="bootstrapHouse"></ng-icon>
+            <span>&nbsp;Acasa</span>
+          </span>
+        </a>
+      </li>
+      <li>
+        <a
+          mat-button
+          [matMenuTriggerFor]="menuPentruCalatori"
+          aria-label="Deschide meniul pentru călători"
+        >
+          <span class="button-content">
+            <ng-icon name="bootstrapTrainFront"></ng-icon>
+            <span>&nbsp;Pentru Călători</span>
+          </span>
+        </a>
+        <mat-menu #menuPentruCalatori="matMenu">
+          <!-- <a mat-menu-item>Mersul trenurilor</a> -->
+          <a [routerLink]="['/pentru-calatori/rute']" mat-menu-item>Rute</a>
+          <a
+            [routerLink]="[
+              '/pentru-calatori/eliberarea-legitimatiilor-de-calatorie'
+            ]"
+            mat-menu-item
+            >Eliberarea legitimațiilor de călătorie</a
+          >
+          <!-- <a [routerLink]="['/pentru-calatori/tarife']" mat-menu-item>Tarife de călătorie</a> -->
+        </mat-menu>
+      </li>
+      <li>
+        <a
+          mat-button
+          [matMenuTriggerFor]="menuMarketing"
+          aria-label="Deschide meniul de marketing"
+          disabled
+        >
+          <span class="button-content">
+            <ng-icon name="bootstrapMegaphone"></ng-icon>
+            <span>&nbsp;Marketing</span>
+          </span>
+        </a>
+        <mat-menu #menuMarketing="matMenu">
+          <a mat-menu-item>Locuri de vizitat</a>
+          <a mat-menu-item>&nbsp;Campanii</a>
+        </mat-menu>
+      </li>
+      <li>
+        <a mat-button disabled>
+          <span class="button-content">
+            <ng-icon name="bootstrapNewspaper"></ng-icon>
+            <span>&nbsp;Noutăți</span>
+          </span>
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <div class="wrapper-side-navbar">
+    <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Menu">
+      <ng-icon name="bootstrapList"></ng-icon>
+    </button>
+    <mat-menu #menu="matMenu">
+      <a mat-menu-item [routerLink]="['/']">
+        <span class="button-content">
+          <ng-icon name="bootstrapHouse"></ng-icon>
+          <span>&nbsp;Acasa</span>
+        </span>
+      </a>
+      <button mat-menu-item [matMenuTriggerFor]="menuPentruCalatori">
+        <span class="button-content">
+          <ng-icon name="bootstrapTrainFront"></ng-icon>
+          <span>&nbsp;Pentru Calatori</span>
+        </span>
+      </button>
+    </mat-menu>
+  </div>
+</nav>

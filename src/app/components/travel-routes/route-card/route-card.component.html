@@ -1,0 +1,14 @@
+<mat-card class="example-card" appearance="outlined">
+  <mat-card-header>
+    <mat-card-title> {{ route.routeName }}</mat-card-title>
+  </mat-card-header>
+  <img
+    mat-card-image
+    [src]="route.imagePath"
+    [alt]="route.routeName"
+  />
+  <mat-card-actions>
+    <a mat-button [routerLink]="['/pentru-calatori/rute/' + route.routeId]">Detalii</a>
+    <a mat-button [routerLink]="['/pentru-calatori/tarif/' + route.routeId]">Tarife</a>
+  </mat-card-actions>
+</mat-card>
