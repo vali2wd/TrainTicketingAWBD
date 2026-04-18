@@ -1,0 +1,56 @@
+.not-found-wrapper {
+  position: relative;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden; /* Prevents scrollbars from the blur scale */
+}
+
+.blurred-bg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  /* Path to your asset */
+  background-image: url('/assets/train-3775782_1920.jpg');
+  background-size: cover;
+  background-position: center;
+  
+  /* The "Dark and Blurred" magic */
+  filter: blur(10px) brightness(0.3);
+  
+  /* Scale it up slightly so the blur doesn't show white edges */
+  transform: scale(1.1);
+  z-index: -1;
+}
+
+.content {
+  text-align: center;
+  color: white;
+  font-family: 'Roboto', sans-serif;
+  animation: fadeIn 0.8s ease-out;
+}
+
+.display-404 {
+  font-size: 10rem;
+  font-weight: 900;
+  margin: 0;
+  letter-spacing: -5px;
+  line-height: 1;
+}
+
+.subtitle {
+  font-size: 1.5rem;
+  font-weight: 300;
+  margin-bottom: 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
