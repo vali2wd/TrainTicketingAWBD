@@ -1,11 +1,16 @@
-﻿namespace TrainTicketing.Contracts.DataTransfer;
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace TrainTicketing.Contracts.DataTransfer;
 
 public class PaginationResponse<T>
 {
     public IEnumerable<T> Data { get; }
-    
+
+    [Required(ErrorMessage = "Specify page number")]
     public int PageNumber { get; }
-    
+
+    [Range(6, 72)]
+    [Required(ErrorMessage = "Specify page size")]
     public int PageSize { get; }
     
     public int TotalPages { get; }
