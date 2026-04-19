@@ -23,24 +23,31 @@ public static class RoutesEndpoints
 
         app.MapGet("/routes-pg", async (TrainTicketingDbContext dbContext, [AsParameters] QueryParameters queryParameters) =>
         {
-            var routesQuery = dbContext.Routes.AsQueryable();
-
-            // A is Name, B is Total Distance
+            var routesQuery = dbContext.Routes.AsNoTracking();
 
             routesQuery = (queryParameters.SortByA, queryParameters.SortByB) switch
             {
-                (true, _) => routesQuery.OrderBy(r => r.RouteName),           // Name is Asc
-                (false, _) => routesQuery.OrderByDescending(r => r.RouteName), // Name is Desc
-                (null, true) => routesQuery.OrderBy(r => r.TotalDistance),      // Name is null, Total Distance is Asc
-                (null, false) => routesQuery.OrderByDescending(r => r.TotalDistance), // Name is null, Total Distance is Desc
-                _ => routesQuery.OrderBy(r => r.RouteId)              // Default stable sort
+                (true, _) => routesQuery.OrderBy(r => r.RouteName),
+                (false, _) => routesQuery.OrderByDescending(r => r.RouteName),
+                (null, true) => routesQuery.OrderBy(r => r.TotalDistance),
+                (null, false) => routesQuery.OrderByDescending(r => r.TotalDistance),
+                _ => routesQuery.OrderBy(r => r.RouteId)
             };
 
-            var routes = await routesQuery
-                            .AsNoTracking()
+            var totalCount = await routesQuery.CountAsync();
+
+            var items = await routesQuery
+                            .Skip((queryParameters.PageNumber - 1) * queryParameters.PageSize) // Move the pointer
+                            .Take(queryParameters.PageSize) // Grab only the slice we need
                             .Select(r => new RouteWithNameAndImageDto(r.RouteId, r.RouteName, r.ImagePath))
                             .ToListAsync();
-            PaginationResponse<dynamic> response = new(routes, routes.Count(), queryParameters.PageNumber, queryParameters.PageSize);
+
+            var response = new PaginationResponse<RouteWithNameAndImageDto>(
+                items,
+                totalCount,
+                queryParameters.PageNumber,
+                queryParameters.PageSize
+            );
 
             return Results.Ok(response);
         });
