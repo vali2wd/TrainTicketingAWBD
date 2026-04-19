@@ -1,9 +1,30 @@
-<div class = "routes-container">
-        <div class="grid-container">
-                @for (route of routes; track route.routeId) {
-                        <div><app-route-card [route]="route"></app-route-card></div>
-                }
-        </div>
+<div class="routes-container">
+  <div class="controls-bar">
+    <mat-form-field appearance="outline">
+      <mat-label>Sort By</mat-label>
+      <mat-select (selectionChange)="onSortChange($event.value)">
+        <mat-option value="default">Default (ID)</mat-option>
+        <mat-option value="name-asc">Name (A-Z)</mat-option>
+        <mat-option value="name-desc">Name (Z-A)</mat-option>
+        <mat-option value="dist-asc">Shortest Distance</mat-option>
+        <mat-option value="dist-desc">Longest Distance</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <div class="grid-container">
+    @for (route of routes; track route.routeId) {
+      <app-route-card [route]="route"></app-route-card>
+    }
+  </div>
+
+  <mat-paginator
+    [length]="totalCount"
+    [pageSize]="pageSize"
+    [pageIndex]="pageIndex"
+    [pageSizeOptions]="[6, 12, 24, 48]"
+    (page)="handlePageEvent($event)"
+    aria-label="Select page of routes"
+  >
+  </mat-paginator>
 </div>
-
-

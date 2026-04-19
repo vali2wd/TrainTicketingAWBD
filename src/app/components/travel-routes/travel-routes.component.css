@@ -1,30 +1,42 @@
+/* 1. The Wrapper: Changed to 'column' so items stack vertically */
+.routes-container {
+  padding: 20px;
+  width: 100%; /* Changed from auto to 100% to ensure paginator spans correctly */
+  min-height: 100%; 
+  display: flex;
+  flex-direction: column; /* Stacks Grid on top, Paginator on bottom */
+  align-items: center;    /* Keeps the grid and paginator centered horizontally */
+  gap: 30px;              /* Adds breathing room between the grid and the paginator */
+}
+
+/* 2. Your Grid: Keeping your specific column logic */
 .grid-container {
-        display: grid;
-        grid-template-columns: repeat(3, 2fr); /* Creates 3 equal columns */
-        gap: 20px; /* Optional: adds spacing between items */
-      }
-.routes-container{
-        padding-top: 20px;
-        width: auto;
-        height: 100%;
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 equal columns */
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px; /* Optional: keeps the grid from getting too wide on ultra-wide monitors */
 }
 
-
-
-@media screen and ( max-width: 994px) and (min-width: 665px)
-{
-        .grid-container {
-                grid-template-columns: repeat(2, 2fr); /* Creates 2 equal columns */
-        }
+/* 3. The Paginator: Styling it to match your layout */
+mat-paginator {
+  width: 100%;
+  max-width: 1200px;
+  border-radius: 8px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  background-color: white;
 }
 
-@media screen and (max-width: 664px) 
-{
-        .grid-container {
-                display: grid;
-                grid-template-columns: 1fr; /* Creates 1 column */
-        }
+/* --- Your Media Queries (Preserved!) --- */
+
+@media screen and (max-width: 994px) and (min-width: 665px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr); /* 2 equal columns */
+  }
+}
+
+@media screen and (max-width: 664px) {
+  .grid-container {
+    grid-template-columns: 1fr; /* 1 column */
+  }
 }
