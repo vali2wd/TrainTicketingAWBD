@@ -5,12 +5,18 @@ import { HomeComponent } from './components/home/home.component';
 import { TravelRoutesComponent } from './components/travel-routes/travel-routes.component';
 import { RouteTariffComponent } from './components/route-tariff/route-tariff.component';
 import { RouteDetailComponent } from './components/route-details/route-detail/route-detail.component';
+import { LoginComponent } from './login/login.component';
 
 export const routes: Routes = [
   {
     path: '',
     component: HomeComponent,
     title: 'Acasa - Transferoviar Calatori',
+  },
+    {
+    path: 'login',
+    component: LoginComponent,
+    title: 'Log In - Transferoviar Calatori',
   },
   {
     path: 'pentru-calatori/eliberarea-legitimatiilor-de-calatorie',

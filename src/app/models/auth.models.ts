@@ -4,7 +4,8 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  token: string;
-  expiration: string;
-  userName: string;
+  tokenType: string;
+  accessToken: string; // Matched to Postman
+  expiresIn: number;
+  refreshToken: string;
 }

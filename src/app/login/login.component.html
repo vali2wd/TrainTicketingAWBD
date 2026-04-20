@@ -1,0 +1,28 @@
+<div class="login-page">
+  <mat-card class="login-card">
+    <mat-card-header>
+      <mat-card-title>Conectează-te cu contul tău de pasager!</mat-card-title>
+      <mat-card-subtitle>Acceseaza titlurile tale si călătoriile.</mat-card-subtitle>
+    </mat-card-header>
+
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email Address</mat-label>
+          <input matInput formControlName="email" type="email" placeholder="email@example.com">
+        </mat-form-field>
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Password</mat-label>
+          <input matInput formControlName="password" type="password">
+        </mat-form-field>
+      </mat-card-content>
+
+      <mat-card-actions>
+        <button mat-flat-button color="primary" type="submit" [disabled]="loginForm.invalid">
+          LOG IN
+        </button>
+      </mat-card-actions>
+    </form>
+  </mat-card>
+</div>
