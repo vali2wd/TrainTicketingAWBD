@@ -50,7 +50,7 @@ public static class RoutesEndpoints
             );
 
             return Results.Ok(response);
-        });
+        }).RequireAuthorization("ClientPolicy");
 
 
         app.MapGet("/route/{routeId}", async (string routeId, TrainTicketingDbContext dbContext) =>
