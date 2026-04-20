@@ -32,7 +32,7 @@
           <a [routerLink]="['/pentru-calatori/rute']" mat-menu-item>Rute</a>
           <a
             [routerLink]="[
-              '/pentru-calatori/eliberarea-legitimatiilor-de-calatorie'
+              '/pentru-calatori/eliberarea-legitimatiilor-de-calatorie',
             ]"
             mat-menu-item
             >Eliberarea legitimațiilor de călătorie</a
@@ -66,6 +66,14 @@
         </a>
       </li>
       <li>
+        @if (authService.currentUser$ | async; as user) {
+          <li class="welcome-item">
+            <span class="button-content welcome-msg">
+              <ng-icon name="bootstrapPersonCircle"></ng-icon>
+              <span>&nbsp;Bine ai venit, călătorule!</span>
+            </span>
+          </li>
+        }
         <a mat-button (click)="onLogout()">
           <span class="button-content">
             <ng-icon name="bootstrapDoorClosed"></ng-icon>
